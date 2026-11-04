@@ -1,0 +1,561 @@
+fileFormatVersion: 2
+guid: 8af0e8cf18612df4ea27781c6f9a59e6
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 1661189911894959704
+    second: storm_origin_15_0
+  - first:
+      213: -6800098904783406526
+    second: storm_origin_15_1
+  - first:
+      213: -3938365089508505386
+    second: storm_origin_15_2
+  - first:
+      213: 5597149386533816024
+    second: storm_origin_15_3
+  - first:
+      213: -4967381821375141791
+    second: storm_origin_15_4
+  - first:
+      213: -2444593737332587721
+    second: storm_origin_15_5
+  - first:
+      213: 627748661408832819
+    second: storm_origin_15_6
+  - first:
+      213: 1843668071609495362
+    second: storm_origin_15_7
+  - first:
+      213: 2269338214539442141
+    second: storm_origin_15_8
+  - first:
+      213: 4228477887676287754
+    second: storm_origin_15_9
+  - first:
+      213: -95822856665618199
+    second: storm_origin_15_10
+  - first:
+      213: -7941526542140927001
+    second: storm_origin_15_11
+  - first:
+      213: -3821117625103580276
+    second: storm_origin_15_12
+  - first:
+      213: 8537423263105747721
+    second: storm_origin_15_13
+  - first:
+      213: 4444735200884632558
+    second: storm_origin_15_14
+  - first:
+      213: -4084514274354385801
+    second: storm_origin_15_15
+  - first:
+      213: 5021353546561964838
+    second: storm_origin_15_16
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationMethod: 0
+  spriteTessellationDetail: -1
+  spriteGeometrySubdivision: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: storm_origin_15_0
+      rect:
+        serializedVersion: 2
+        x: 10
+        y: 560
+        width: 259
+        height: 151
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 85626fa6c6bbd0710800000000000000
+      internalID: 1661189911894959704
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: storm_origin_15_1
+      rect:
+        serializedVersion: 2
+        x: 201
+        y: 661
+        width: 68
+        height: 55
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 24abcd6131231a1a0800000000000000
+      internalID: -6800098904783406526
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: storm_origin_15_2
+      rect:
+        serializedVersion: 2
+        x: 306
+        y: 603
+        width: 201
+        height: 113
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6d8cb0441dd1859c0800000000000000
+      internalID: -3938365089508505386
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: storm_origin_15_3
+      rect:
+        serializedVersion: 2
+        x: 817
+        y: 579
+        width: 315
+        height: 137
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8d6c42b46b11dad40800000000000000
+      internalID: 5597149386533816024
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: storm_origin_15_4
+      rect:
+        serializedVersion: 2
+        x: 1137
+        y: 632
+        width: 50
+        height: 55
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 168a3314d80501bb0800000000000000
+      internalID: -4967381821375141791
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: storm_origin_15_5
+      rect:
+        serializedVersion: 2
+        x: 517
+        y: 610
+        width: 14
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 733852aa2fe031ed0800000000000000
+      internalID: -2444593737332587721
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: storm_origin_15_6
+      rect:
+        serializedVersion: 2
+        x: 532
+        y: 615
+        width: 24
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 33d1083e41636b800800000000000000
+      internalID: 627748661408832819
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: storm_origin_15_7
+      rect:
+        serializedVersion: 2
+        x: 797
+        y: 586
+        width: 15
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 24f630cc756069910800000000000000
+      internalID: 1843668071609495362
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: storm_origin_15_8
+      rect:
+        serializedVersion: 2
+        x: 61
+        y: 513
+        width: 51
+        height: 47
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dd7b7d8251f4e7f10800000000000000
+      internalID: 2269338214539442141
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: storm_origin_15_9
+      rect:
+        serializedVersion: 2
+        x: 1006
+        y: 463
+        width: 269
+        height: 97
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a0b0a834c329eaa30800000000000000
+      internalID: 4228477887676287754
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: storm_origin_15_10
+      rect:
+        serializedVersion: 2
+        x: 5
+        y: 144
+        width: 393
+        height: 313
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9e8251b9e919baef0800000000000000
+      internalID: -95822856665618199
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: storm_origin_15_11
+      rect:
+        serializedVersion: 2
+        x: 390
+        y: 413
+        width: 15
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7e39a599fa70ac190800000000000000
+      internalID: -7941526542140927001
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: storm_origin_15_12
+      rect:
+        serializedVersion: 2
+        x: 850
+        y: 385
+        width: 50
+        height: 44
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c8387bed3c9a8fac0800000000000000
+      internalID: -3821117625103580276
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: storm_origin_15_13
+      rect:
+        serializedVersion: 2
+        x: 933
+        y: 112
+        width: 342
+        height: 320
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 90b039e79350b7670800000000000000
+      internalID: 8537423263105747721
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: storm_origin_15_14
+      rect:
+        serializedVersion: 2
+        x: 230
+        y: 84
+        width: 36
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: eeb2761bd1fdead30800000000000000
+      internalID: 4444735200884632558
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: storm_origin_15_15
+      rect:
+        serializedVersion: 2
+        x: 85
+        y: 4
+        width: 81
+        height: 58
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 77c281d78e3e057c0800000000000000
+      internalID: -4084514274354385801
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: storm_origin_15_16
+      rect:
+        serializedVersion: 2
+        x: 1167
+        y: 9
+        width: 56
+        height: 58
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 62b4972427e6fa540800000000000000
+      internalID: 5021353546561964838
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      storm_origin_15_0: 1661189911894959704
+      storm_origin_15_1: -6800098904783406526
+      storm_origin_15_10: -95822856665618199
+      storm_origin_15_11: -7941526542140927001
+      storm_origin_15_12: -3821117625103580276
+      storm_origin_15_13: 8537423263105747721
+      storm_origin_15_14: 4444735200884632558
+      storm_origin_15_15: -4084514274354385801
+      storm_origin_15_16: 5021353546561964838
+      storm_origin_15_2: -3938365089508505386
+      storm_origin_15_3: 5597149386533816024
+      storm_origin_15_4: -4967381821375141791
+      storm_origin_15_5: -2444593737332587721
+      storm_origin_15_6: 627748661408832819
+      storm_origin_15_7: 1843668071609495362
+      storm_origin_15_8: 2269338214539442141
+      storm_origin_15_9: 4228477887676287754
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

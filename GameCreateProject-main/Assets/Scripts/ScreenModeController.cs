@@ -1,0 +1,40 @@
+using UnityEngine;
+
+[DisallowMultipleComponent]
+public class ScreenModeController : MonoBehaviour
+{
+    [SerializeField] private KeyCode toggleKey = KeyCode.F11;
+    [SerializeField, Min(320)] private int windowWidth = 1280;
+    [SerializeField, Min(180)] private int windowHeight = 720;
+
+    private float nextToggleTime;
+
+    private void Update()
+    {
+        // 시간 배속과 무관하게 전직창/게임오버에서도 사용할 수 있습니다.
+        if (Application.isEditor || Time.unscaledTime < nextToggleTime
+            || !Input.GetKeyDown(toggleKey))
+            return;
+
+        nextToggleTime = Time.unscaledTime + 0.3f;
+        SetFullscreen(!Screen.fullScreen);
+    }
+
+    public void SetFullscreen(bool fullscreen)
+    {
+        if (Application.isEditor) return;
+        Resolution desktop = Screen.currentResolution;
+        if (!fullscreen)
+        {
+            // 작은 모니터에서도 창 테두리와 작업표시줄 공간을 남깁니다.
+            int width = Mathf.Min(windowWidth, Mathf.Max(320, desktop.width - 100));
+            int height = Mathf.Min(windowHeight, Mathf.Max(180, desktop.height - 100));
+            Screen.SetResolution(width, height, FullScreenMode.Windowed);
+        }
+        else
+        {
+            Screen.SetResolution(desktop.width, desktop.height,
+                FullScreenMode.FullScreenWindow);
+        }
+    }
+}

@@ -1,0 +1,197 @@
+using UnityEngine;
+using UnityEngine.SceneManagement;
+
+public class PlayerHealth : MonoBehaviour
+{
+    [Header("체력과 피격")]
+    [SerializeField] private int maxHealth = 10;
+    [SerializeField] private int contactDamage = 1;
+    [SerializeField] private float invincibleTime = 1f;
+
+    [Header("무적 상태 깜빡임")]
+    [SerializeField, Min(0.02f)]
+    private float blinkInterval = 0.1f;
+
+    [SerializeField, Range(0f, 1f)]
+    private float blinkAlpha = 0.25f;
+
+    private PlayerMovement movement;
+    private int currentHealth;
+    private float nextDamageTime;
+    private float blinkStartTime;
+    private bool restartRequested;
+    private bool isDead;
+    public bool IsDead => isDead;
+    public int CurrentHealth => currentHealth;
+    public int MaxHealth => maxHealth;
+    [SerializeField] private bool showDebugGUI = true;
+    private bool isBlinking;
+
+    private SpriteRenderer[] spriteRenderers;
+    private float[] originalAlphas;
+
+    private void Awake()
+    {
+        movement = GetComponent<PlayerMovement>();
+        currentHealth = maxHealth;
+        Time.timeScale = 1f;
+
+        // 플레이어와 자식 오브젝트의 스프라이트를 찾습니다.
+        spriteRenderers =
+            GetComponentsInChildren<SpriteRenderer>(true);
+
+        originalAlphas = new float[spriteRenderers.Length];
+
+        for (int i = 0; i < spriteRenderers.Length; i++)
+        {
+            originalAlphas[i] = spriteRenderers[i].color.a;
+        }
+    }
+
+    private void Update()
+    {
+        // Update는 timeScale이 0인 게임오버 상태에서도 호출됩니다.
+        if (isDead)
+        {
+            if (!restartRequested && Input.GetKeyDown(KeyCode.R))
+            {
+                restartRequested = true;
+                Time.timeScale = 1f;
+                if (GameSession.Instance != null) GameSession.Instance.Restart();
+                else SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            }
+            return;
+        }
+
+        if (!isBlinking)
+            return;
+
+        // 무적 시간이 끝나거나 사망하면 원래 모습으로 복구합니다.
+        if (isDead || Time.time >= nextDamageTime)
+        {
+            StopBlinking();
+            return;
+        }
+
+        float elapsed = Time.time - blinkStartTime;
+        float interval = Mathf.Max(0.02f, blinkInterval);
+
+        bool faded =
+            Mathf.FloorToInt(elapsed / interval) % 2 == 0;
+
+        SetAlphaMultiplier(faded ? blinkAlpha : 1f);
+    }
+
+    private void OnTriggerStay2D(Collider2D other)
+    {
+        if (Time.timeScale <= 0f || isDead || Time.time < nextDamageTime
+            || (movement != null && movement.IsDashing))
+            return;
+
+        EnemyMovement enemy =
+            other.GetComponent<EnemyMovement>();
+
+        if (enemy == null || contactDamage <= 0)
+            return;
+
+        currentHealth = Mathf.Max(
+            0, currentHealth - contactDamage
+        );
+
+        GameAudio.Instance?.PlayPlayerHit();
+
+        if (currentHealth == 0)
+        {
+            Die();
+            return;
+        }
+
+        // 무적 판정과 깜빡임에 같은 종료 시간을 사용합니다.
+        blinkStartTime = Time.time;
+        nextDamageTime =
+            Time.time + Mathf.Max(0f, invincibleTime);
+
+        if (invincibleTime > 0f)
+        {
+            isBlinking = true;
+
+            // 피격 직후 바로 반투명하게 표시합니다.
+            SetAlphaMultiplier(blinkAlpha);
+        }
+    }
+
+    private void SetAlphaMultiplier(float multiplier)
+    {
+        if (spriteRenderers == null)
+            return;
+
+        for (int i = 0; i < spriteRenderers.Length; i++)
+        {
+            SpriteRenderer sprite = spriteRenderers[i];
+
+            if (sprite == null)
+                continue;
+
+            Color color = sprite.color;
+            color.a = originalAlphas[i] * multiplier;
+            sprite.color = color;
+        }
+    }
+
+    private void StopBlinking()
+    {
+        isBlinking = false;
+        SetAlphaMultiplier(1f);
+    }
+
+    private void Die()
+    {
+        isDead = true;
+        StopBlinking();
+
+        PlayerMovement movement =
+            GetComponent<PlayerMovement>();
+
+        AutoAttack attack =
+            GetComponent<AutoAttack>();
+
+        if (movement != null)
+            movement.enabled = false;
+
+        if (attack != null)
+            attack.enabled = false;
+
+        Time.timeScale = 0f;
+    }
+
+    private void OnGUI()
+    {
+        if (!showDebugGUI) return;
+        GUI.Box(
+            new Rect(10, 10, 180, 35),
+            $"HP: {currentHealth} / {maxHealth}"
+        );
+
+        if (isDead)
+        {
+            GUI.Box(
+                new Rect(
+                    Screen.width / 2f - 140,
+                    Screen.height / 2f - 50,
+                    280,
+                    100
+                ),
+                "GAME OVER\n\nPress R to restart"
+            );
+        }
+    }
+
+    private void OnDisable()
+    {
+        // 비활성화되더라도 반투명한 상태로 남지 않게 합니다.
+        StopBlinking();
+        Time.timeScale = 1f;
+    }
+}
+
+

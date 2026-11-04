@@ -1,0 +1,613 @@
+fileFormatVersion: 2
+guid: d50deb602cdeaf94cbf31759b5938be9
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -8132847989513998435
+    second: shadow_ascent_12_0
+  - first:
+      213: -1078937544044679932
+    second: shadow_ascent_12_1
+  - first:
+      213: 1803409041761236115
+    second: shadow_ascent_12_2
+  - first:
+      213: -4310627429329600797
+    second: shadow_ascent_12_3
+  - first:
+      213: 924634257261188267
+    second: shadow_ascent_12_4
+  - first:
+      213: 1939972252103737148
+    second: shadow_ascent_12_5
+  - first:
+      213: -4948964673822007156
+    second: shadow_ascent_12_6
+  - first:
+      213: 8621186198898811057
+    second: shadow_ascent_12_7
+  - first:
+      213: -671318291999756340
+    second: shadow_ascent_12_8
+  - first:
+      213: -5871762731931235442
+    second: shadow_ascent_12_9
+  - first:
+      213: -6484495698260512133
+    second: shadow_ascent_12_10
+  - first:
+      213: -8700316258333674129
+    second: shadow_ascent_12_11
+  - first:
+      213: -3206097735140260739
+    second: shadow_ascent_12_12
+  - first:
+      213: 8695634924333199924
+    second: shadow_ascent_12_13
+  - first:
+      213: 4327436990689484639
+    second: shadow_ascent_12_14
+  - first:
+      213: -8517886590136767375
+    second: shadow_ascent_12_15
+  - first:
+      213: 1473753614022978243
+    second: shadow_ascent_12_16
+  - first:
+      213: 7219465196996150737
+    second: shadow_ascent_12_17
+  - first:
+      213: -5029873837134763532
+    second: shadow_ascent_12_18
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationMethod: 0
+  spriteTessellationDetail: -1
+  spriteGeometrySubdivision: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: shadow_ascent_12_0
+      rect:
+        serializedVersion: 2
+        x: 68
+        y: 650
+        width: 105
+        height: 46
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d9fa4ccd7d1522f80800000000000000
+      internalID: -8132847989513998435
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shadow_ascent_12_1
+      rect:
+        serializedVersion: 2
+        x: 718
+        y: 612
+        width: 232
+        height: 82
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 40d62682508d601f0800000000000000
+      internalID: -1078937544044679932
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shadow_ascent_12_2
+      rect:
+        serializedVersion: 2
+        x: 508
+        y: 516
+        width: 132
+        height: 87
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 394f7e6f7fef60910800000000000000
+      internalID: 1803409041761236115
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shadow_ascent_12_3
+      rect:
+        serializedVersion: 2
+        x: 640
+        y: 152
+        width: 637
+        height: 420
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3eef0c311339d24c0800000000000000
+      internalID: -4310627429329600797
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shadow_ascent_12_4
+      rect:
+        serializedVersion: 2
+        x: 982
+        y: 552
+        width: 93
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ba4d53345f5f4dc00800000000000000
+      internalID: 924634257261188267
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shadow_ascent_12_5
+      rect:
+        serializedVersion: 2
+        x: 1179
+        y: 562
+        width: 35
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c3ff1c02c7a2cea10800000000000000
+      internalID: 1939972252103737148
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shadow_ascent_12_6
+      rect:
+        serializedVersion: 2
+        x: 498
+        y: 528
+        width: 16
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c80e1e299deb15bb0800000000000000
+      internalID: -4948964673822007156
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shadow_ascent_12_7
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 345
+        width: 98
+        height: 105
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1b02ddfbb2b94a770800000000000000
+      internalID: 8621186198898811057
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shadow_ascent_12_8
+      rect:
+        serializedVersion: 2
+        x: 521
+        y: 396
+        width: 73
+        height: 60
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ccfe12af19ffea6f0800000000000000
+      internalID: -671318291999756340
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shadow_ascent_12_9
+      rect:
+        serializedVersion: 2
+        x: 296
+        y: 298
+        width: 87
+        height: 69
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e8b8cddb7ee438ea0800000000000000
+      internalID: -5871762731931235442
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shadow_ascent_12_10
+      rect:
+        serializedVersion: 2
+        x: 595
+        y: 346
+        width: 17
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b7232adc4817206a0800000000000000
+      internalID: -6484495698260512133
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shadow_ascent_12_11
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 265
+        width: 14
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f6537749574424780800000000000000
+      internalID: -8700316258333674129
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shadow_ascent_12_12
+      rect:
+        serializedVersion: 2
+        x: 401
+        y: 223
+        width: 118
+        height: 49
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d74c7c5b817a183d0800000000000000
+      internalID: -3206097735140260739
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shadow_ascent_12_13
+      rect:
+        serializedVersion: 2
+        x: 63
+        y: 207
+        width: 32
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4327c5964e91da870800000000000000
+      internalID: 8695634924333199924
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shadow_ascent_12_14
+      rect:
+        serializedVersion: 2
+        x: 70
+        y: 71
+        width: 248
+        height: 116
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f5f9ee9e3052e0c30800000000000000
+      internalID: 4327436990689484639
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shadow_ascent_12_15
+      rect:
+        serializedVersion: 2
+        x: 531
+        y: 57
+        width: 43
+        height: 90
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 17ca5d5a6436ac980800000000000000
+      internalID: -8517886590136767375
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shadow_ascent_12_16
+      rect:
+        serializedVersion: 2
+        x: 865
+        y: 143
+        width: 133
+        height: 63
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3caa94a8a13d37410800000000000000
+      internalID: 1473753614022978243
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shadow_ascent_12_17
+      rect:
+        serializedVersion: 2
+        x: 1134
+        y: 86
+        width: 87
+        height: 92
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1d54047a851b03460800000000000000
+      internalID: 7219465196996150737
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shadow_ascent_12_18
+      rect:
+        serializedVersion: 2
+        x: 993
+        y: 62
+        width: 82
+        height: 62
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4f92d80056c423ab0800000000000000
+      internalID: -5029873837134763532
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      shadow_ascent_12_0: -8132847989513998435
+      shadow_ascent_12_1: -1078937544044679932
+      shadow_ascent_12_10: -6484495698260512133
+      shadow_ascent_12_11: -8700316258333674129
+      shadow_ascent_12_12: -3206097735140260739
+      shadow_ascent_12_13: 8695634924333199924
+      shadow_ascent_12_14: 4327436990689484639
+      shadow_ascent_12_15: -8517886590136767375
+      shadow_ascent_12_16: 1473753614022978243
+      shadow_ascent_12_17: 7219465196996150737
+      shadow_ascent_12_18: -5029873837134763532
+      shadow_ascent_12_2: 1803409041761236115
+      shadow_ascent_12_3: -4310627429329600797
+      shadow_ascent_12_4: 924634257261188267
+      shadow_ascent_12_5: 1939972252103737148
+      shadow_ascent_12_6: -4948964673822007156
+      shadow_ascent_12_7: 8621186198898811057
+      shadow_ascent_12_8: -671318291999756340
+      shadow_ascent_12_9: -5871762731931235442
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
