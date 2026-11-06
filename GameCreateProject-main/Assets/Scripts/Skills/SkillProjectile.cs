@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -54,7 +54,38 @@ public class SkillProjectile : MonoBehaviour
     }
 
     private Vector2 direction;
+    private float sizeScale = 1f;   // Spawn 때 받은 크기 배율
+    private string frameId;         // 프레임 화살 (Resources/SkillFx/{id})
+    private float frameFps, age;
+    private string hitFxId;         // 적에게 맞을 때 터지는 이펙트
+    private float hitFxSize;
+    private SpriteRenderer view;
     private EnemyHealth homingTarget;
+
+    // 2차 전직 상태(3차 전)인지: 이때 쏘는 화살은 2차 화살 그림(arrow2)을 씀
+    private static bool SecondJobStage =>
+        SecondJobSystem.Instance != null && SecondJobSystem.Instance.HasAdvanced
+        && (JobTierSystem.Instance == null || JobTierSystem.Instance.Tier < 3);
+
+    // 프레임 그림으로 바꿈 (그림 오른쪽 = 날아가는 방향). 그림이 없으면 그대로
+    public SkillProjectile UseFrames(string id, float fps = 12f)
+    {
+        Sprite[] f = SkillFx.Frames(id);
+        if (f == null || view == null) return this;
+        frameId = id; frameFps = fps;
+        view.sprite = f[0];
+        view.color = new Color(1f, 1f, 1f, view.color.a); // 그림 색 그대로
+        float s = SkillUtil.ArrowScale(f[0], sizeScale);
+        transform.localScale = new Vector3(s, s, 1f);
+        return this;
+    }
+
+    // 적에게 맞을 때마다 이펙트 (size = 이펙트 크기, 월드 단위). 그림이 없으면 아무것도 안 함
+    public SkillProjectile UseHitFx(string id, float size)
+    {
+        hitFxId = id; hitFxSize = size;
+        return this;
+    }
     private float homingTurnRate;   // 1초에 꺾을 수 있는 각도
     private bool homingRetarget;    // 목표가 죽으면 가까운 다른 적으로 갈아타기
     private float nextRetarget;
@@ -80,10 +111,10 @@ public class SkillProjectile : MonoBehaviour
         GameObject obj = new GameObject("SkillArrow");
         obj.transform.position = position;
         obj.transform.rotation = SkillUtil.RotationFor(direction);
-        obj.transform.localScale = new Vector3(scale, scale, 1f);
-
         SpriteRenderer sr = obj.AddComponent<SpriteRenderer>();
         sr.sprite = sprite != null ? sprite : SkillUtil.ArrowSprite();
+        float s = SkillUtil.ArrowScale(sr.sprite, scale); // 그림 크기와 상관없이 같은 길이로
+        obj.transform.localScale = new Vector3(s, s, 1f);
         sr.color = color;
         sr.sortingOrder = sortingOrder;
 
@@ -99,12 +130,27 @@ public class SkillProjectile : MonoBehaviour
         p.enemies = enemyContainer;
         p.owner = PlayerProgression.Instance != null
             ? PlayerProgression.Instance.GetComponent<PlayerHealth>() : null;
+        p.view = sr;
+        p.sizeScale = scale;
+        if (SecondJobStage) p.UseFrames("arrow2").UseHitFx("arrow_hit", 0.9f); // 2차 화살 (그림 없으면 예전 그대로)
+        else if (JobTierSystem.Instance != null && JobTierSystem.Instance.Tier >= 3)
+        {
+            // 3·4차: 그림자 = 보라 화살 / 폭풍 = 바람 화살 (스킬이 따로 정하면 그걸로 덮어씀)
+            if (JobTierSystem.Instance.Branch == ArcherBranch.Shadow) p.UseFrames("shadow_arrow");
+            else p.UseFrames("wind_arrow").UseHitFx("gale_hit", 0.8f);
+        }
         return p;
     }
 
     private void Update()
     {
         if (owner != null && owner.IsDead) { Destroy(gameObject); return; }
+        if (frameId != null && Time.deltaTime > 0f)
+        {
+            age += Time.deltaTime;
+            Sprite fs = SkillFx.LoopFrame(frameId, age, frameFps);
+            if (fs != null) view.sprite = fs;
+        }
         float step = Mathf.Min(Mathf.Max(0f, range - travelled), speed * Time.deltaTime);
         if (step <= 0f)
             return; // 일시정지 중
@@ -166,6 +212,7 @@ public class SkillProjectile : MonoBehaviour
             moved = hit.distance;
             alreadyHit.Add(enemy);
             enemy.TakeDamage(damage);
+            if (hitFxId != null) SkillFx.Anim(hitFxId, point, hitFxSize, 0.28f, 0f, 62);
             OnHit?.Invoke(this, point, enemy);
             if (!pierce)
             {

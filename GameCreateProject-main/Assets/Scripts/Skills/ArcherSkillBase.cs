@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 // 키를 누르면 쿨타임마다 한 번 발동하는 스킬의 공통 부분.
 // ISkillCooldown을 구현하므로 하단 스킬 칸에 자동으로 표시됩니다.
@@ -54,11 +54,16 @@ public abstract class ArcherSkillBase : MonoBehaviour, ISkillCooldown
         {
             nextCastTime = Time.time + SkillModifiers.Cooldown(cooldown);
             SkillSound.Play(castSound, castVolume);
+            NotifyCast(this);
         }
     }
 
     // 발동에 성공하면 true (쿨타임 시작)
     protected abstract bool Cast();
+
+    // 스킬이 나갈 때 알림 (예: 바람 정령이 같이 움직임). 받는 쪽이 없어도 됨
+    public static event System.Action<MonoBehaviour> SkillCast;
+    public static void NotifyCast(MonoBehaviour skill) => SkillCast?.Invoke(skill);
 
     // 맞음/폭발 소리 (자식 스킬에서 원하는 순간에 호출)
     protected void PlayHitSound() => SkillSound.Play(hitSound, hitVolume, 0.05f);

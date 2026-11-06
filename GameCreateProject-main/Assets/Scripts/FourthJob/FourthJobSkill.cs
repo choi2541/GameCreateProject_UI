@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -128,6 +128,7 @@ public abstract class FourthJobSkill : MonoBehaviour, IFourthJobSkill
             return false;
         Charges--;
         StartCoroutine(Run());
+        ArcherSkillBase.NotifyCast(this);
         return true;
     }
 

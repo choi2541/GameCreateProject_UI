@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: b27e2f0586de25e48a5a7cbc31a02f83
+guid: 94d7700919caca44ba73bfdb42aeefa3
 TextureImporter:
   internalIDToNameTable:
   - first:
@@ -105,10 +105,10 @@ TextureImporter:
       name: ui_pause_normal_0
       rect:
         serializedVersion: 2
-        x: 43
-        y: 24
-        width: 606
-        height: 636
+        x: 8
+        y: 3
+        width: 159
+        height: 167
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

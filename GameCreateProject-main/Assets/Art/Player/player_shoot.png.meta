@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 9bf74ed13d628514cb83717370d4e781
+guid: d51b92f716ca64546bedb79e0dcaaee7
 TextureImporter:
   internalIDToNameTable:
   - first:
@@ -60,7 +60,7 @@ TextureImporter:
     serializedVersion: 2
     filterMode: 1
     aniso: 1
-    mipBias: 0
+    mipBias: -0.7
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -126,10 +126,10 @@ TextureImporter:
       name: player_shoot_0
       rect:
         serializedVersion: 2
-        x: 96
-        y: 5
-        width: 181
-        height: 258
+        x: 45
+        y: 0
+        width: 97
+        height: 134
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -148,10 +148,10 @@ TextureImporter:
       name: player_shoot_1
       rect:
         serializedVersion: 2
-        x: 454
-        y: 5
-        width: 173
-        height: 258
+        x: 224
+        y: 0
+        width: 92
+        height: 134
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -170,10 +170,10 @@ TextureImporter:
       name: player_shoot_2
       rect:
         serializedVersion: 2
-        x: 811
-        y: 5
-        width: 185
-        height: 257
+        x: 402
+        y: 0
+        width: 99
+        height: 134
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -192,10 +192,10 @@ TextureImporter:
       name: player_shoot_3
       rect:
         serializedVersion: 2
-        x: 1163
-        y: 5
-        width: 179
-        height: 257
+        x: 579
+        y: 0
+        width: 95
+        height: 134
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -214,10 +214,10 @@ TextureImporter:
       name: player_shoot_4
       rect:
         serializedVersion: 2
-        x: 1505
-        y: 5
-        width: 218
-        height: 258
+        x: 751
+        y: 0
+        width: 114
+        height: 134
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -236,10 +236,10 @@ TextureImporter:
       name: player_shoot_5
       rect:
         serializedVersion: 2
-        x: 1871
-        y: 5
-        width: 186
-        height: 258
+        x: 933
+        y: 0
+        width: 97
+        height: 134
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -258,10 +258,10 @@ TextureImporter:
       name: player_shoot_6
       rect:
         serializedVersion: 2
-        x: 2222
-        y: 5
-        width: 205
-        height: 257
+        x: 1109
+        y: 0
+        width: 106
+        height: 134
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -280,10 +280,10 @@ TextureImporter:
       name: player_shoot_7
       rect:
         serializedVersion: 2
-        x: 2590
-        y: 5
-        width: 162
-        height: 257
+        x: 1293
+        y: 0
+        width: 86
+        height: 134
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

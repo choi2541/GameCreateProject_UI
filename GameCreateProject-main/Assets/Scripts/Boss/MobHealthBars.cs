@@ -14,6 +14,8 @@ public class MobHealthBars : MonoBehaviour
     [SerializeField] private Color fillColor = new Color(0.9f, 0.2f, 0.2f);
     [SerializeField] private Color backColor = new Color(0f, 0f, 0f, 0.7f);
     [SerializeField] private int sortingOrder = 80;
+    [Tooltip("켜면 체력바를 몹 바로 위 순서로 그림 → 몹이 바위·나무 뒤에 있으면 체력바도 가려짐. 끄면 항상 맨 위(Sorting Order 값)")]
+    [SerializeField] private bool followEnemySorting = true;
 
     private class Bar
     {
@@ -121,14 +123,19 @@ public class MobHealthBars : MonoBehaviour
         back.transform.SetParent(root.transform, false);
         back.sprite = BossUtil.Square();
         back.color = backColor;
-        back.sortingOrder = sortingOrder;
+        // 몹과 같은 그리기 순서 바로 위 → 바위·나무 뒤로 몹이 숨으면 체력바도 같이 가려짐
+        int layer = sr != null ? sr.sortingLayerID : 0;
+        int order = sr != null && followEnemySorting ? sr.sortingOrder + 1 : sortingOrder;
+        back.sortingLayerID = layer;
+        back.sortingOrder = order;
         back.transform.localScale = new Vector3(size.x + 0.04f, size.y + 0.04f, 1f);
 
         SpriteRenderer fill = new GameObject("Fill").AddComponent<SpriteRenderer>();
         fill.transform.SetParent(root.transform, false);
         fill.sprite = BossUtil.SquareLeft();
         fill.color = fillColor;
-        fill.sortingOrder = sortingOrder + 1;
+        fill.sortingLayerID = layer;
+        fill.sortingOrder = order + 1;
         fill.transform.localPosition = new Vector3(-size.x * 0.5f, 0f, 0f);
 
         return new Bar { root = root.transform, fill = fill.transform, height = top + gap };

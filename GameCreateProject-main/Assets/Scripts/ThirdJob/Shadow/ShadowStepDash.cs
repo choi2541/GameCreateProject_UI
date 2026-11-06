@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 
 // [3차 그림자 SHIFT] 그림자 걸음 : 팀 대쉬(Shift)를 쓰면 출발한 자리에 그림자 분신이 남아 2초간 같이 사격
@@ -20,7 +20,8 @@ public class ShadowStepDash : DashAddon, IThirdJobSkill
     protected override void OnDashStart(Vector2 direction, Vector2 from)
     {
         StartCoroutine(Clone(from));
-        SkillFx.Burst(from, 0.3f, 1.3f, new Color(0.35f, 0.1f, 0.55f, 0.6f), 0.25f);
+        if (!SkillFx.Anim("shadow_step", from, 1.8f, 0.35f, 0f, 61))
+            SkillFx.Burst(from, 0.3f, 1.3f, new Color(0.35f, 0.1f, 0.55f, 0.6f), 0.25f);
     }
 
     protected override void OnDashTick(Vector2 from, Vector2 to)

@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -69,8 +69,11 @@ public class CurseBurstSkill : ThirdJobSkill
             JobTierUtil.Hit(enemy, main);
             foreach (EnemyHealth other in near) JobTierUtil.Hit(other, splash);
 
-            SkillFx.Burst(pos, 0.4f, r * 2f, new Color(0.25f, 0.05f, 0.4f, 0.8f), 0.35f);
-            SkillFx.Burst(pos, 0.3f, r * 2.4f, JobTierUtil.ShadowColor, 0.35f, true);
+            if (!SkillFx.Anim("curse_burst", pos, r * 2.4f, 0.4f, 0f, 63))
+            {
+                SkillFx.Burst(pos, 0.4f, r * 2f, new Color(0.25f, 0.05f, 0.4f, 0.8f), 0.35f);
+                SkillFx.Burst(pos, 0.3f, r * 2.4f, JobTierUtil.ShadowColor, 0.35f, true);
+            }
             for (int i = 0; i < 4; i++) // 사방으로 튀는 가시
             {
                 Vector2 d = SkillUtil.Rotate(Vector2.up, i * 90f + 45f);

@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 65d2a3d24fa977340b7c7548f6a8149b
+guid: 335538fdfa228dc49924de1435e731e1
 TextureImporter:
   internalIDToNameTable:
   - first:
@@ -24,7 +24,7 @@ TextureImporter:
   serializedVersion: 13
   mipmaps:
     mipMapMode: 0
-    enableMipMap: 0
+    enableMipMap: 1
     sRGBTexture: 1
     linearTexture: 0
     fadeOut: 0
@@ -54,7 +54,7 @@ TextureImporter:
     serializedVersion: 2
     filterMode: 1
     aniso: 1
-    mipBias: 0
+    mipBias: -0.7
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -74,7 +74,7 @@ TextureImporter:
   spriteTessellationMethod: 0
   spriteTessellationDetail: -1
   spriteGeometrySubdivision: -1
-  textureType: 8
+  textureType: 0
   textureShape: 1
   singleChannelComponent: 0
   flipbookRows: 1
@@ -89,10 +89,10 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 4
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 2048
+    maxTextureSize: 4096
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 2
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -120,10 +120,10 @@ TextureImporter:
       name: novice_attack_thrust_0
       rect:
         serializedVersion: 2
-        x: 68
-        y: 5
-        width: 183
-        height: 258
+        x: 45
+        y: 0
+        width: 81
+        height: 134
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -142,10 +142,10 @@ TextureImporter:
       name: novice_attack_thrust_1
       rect:
         serializedVersion: 2
-        x: 460
-        y: 5
-        width: 148
-        height: 257
+        x: 215
+        y: 0
+        width: 81
+        height: 134
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -164,10 +164,10 @@ TextureImporter:
       name: novice_attack_thrust_2
       rect:
         serializedVersion: 2
-        x: 784
-        y: 5
-        width: 179
-        height: 254
+        x: 378
+        y: 0
+        width: 88
+        height: 131
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -186,10 +186,10 @@ TextureImporter:
       name: novice_attack_thrust_3
       rect:
         serializedVersion: 2
-        x: 1128
-        y: 5
-        width: 238
-        height: 243
+        x: 540
+        y: 0
+        width: 116
+        height: 128
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -208,10 +208,10 @@ TextureImporter:
       name: novice_attack_thrust_4
       rect:
         serializedVersion: 2
-        x: 1486
-        y: 5
-        width: 248
-        height: 243
+        x: 706
+        y: 0
+        width: 118
+        height: 123
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -230,10 +230,10 @@ TextureImporter:
       name: novice_attack_thrust_5
       rect:
         serializedVersion: 2
-        x: 1847
-        y: 5
-        width: 181
-        height: 258
+        x: 896
+        y: 0
+        width: 80
+        height: 134
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

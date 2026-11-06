@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -109,6 +109,13 @@ public class ShadowHomingArrow : FourthJobSkill
             arrow.transform.localScale = Vector3.one * 1.8f;
         }
         arrowRenderer.sprite = arrowSprite != null ? arrowSprite : SkillUtil.ArrowSprite();
+        arrow.transform.localScale = Vector3.one * SkillUtil.ArrowScale(arrowRenderer.sprite, 1.8f);
+        Sprite[] hf = SkillFx.Frames("homing_arrow"); // 보라 추적 화살 그림
+        if (hf != null)
+        {
+            if (arrow.GetComponent<SkillFxLoop>() == null) arrow.AddComponent<SkillFxLoop>().Set("homing_arrow", 12f, arrowRenderer);
+            arrow.transform.localScale = Vector3.one * SkillUtil.ArrowScale(hf[0], 2.2f);
+        }
         arrowRenderer.color = new Color(0.9f, 0.7f, 1f);
         if (trail == null)
         {

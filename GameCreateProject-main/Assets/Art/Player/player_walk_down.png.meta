@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: d0695d28f28725845ae464d4547241df
+guid: 1885fdd55ca3d204b979bab420170163
 TextureImporter:
   internalIDToNameTable:
   - first:
@@ -54,7 +54,7 @@ TextureImporter:
     serializedVersion: 2
     filterMode: 1
     aniso: 1
-    mipBias: 0
+    mipBias: -0.7
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -120,10 +120,10 @@ TextureImporter:
       name: player_walk_down_0
       rect:
         serializedVersion: 2
-        x: 31
-        y: 5
-        width: 153
-        height: 258
+        x: 12
+        y: 0
+        width: 82
+        height: 134
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -142,10 +142,10 @@ TextureImporter:
       name: player_walk_down_1
       rect:
         serializedVersion: 2
-        x: 237
-        y: 5
-        width: 156
-        height: 258
+        x: 117
+        y: 0
+        width: 82
+        height: 134
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -164,10 +164,10 @@ TextureImporter:
       name: player_walk_down_2
       rect:
         serializedVersion: 2
-        x: 456
-        y: 5
-        width: 145
-        height: 256
+        x: 226
+        y: 0
+        width: 77
+        height: 134
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -186,10 +186,10 @@ TextureImporter:
       name: player_walk_down_3
       rect:
         serializedVersion: 2
-        x: 667
-        y: 5
-        width: 146
-        height: 258
+        x: 332
+        y: 0
+        width: 77
+        height: 134
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -208,10 +208,10 @@ TextureImporter:
       name: player_walk_down_4
       rect:
         serializedVersion: 2
-        x: 878
-        y: 5
-        width: 157
-        height: 255
+        x: 437
+        y: 0
+        width: 83
+        height: 133
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -230,10 +230,10 @@ TextureImporter:
       name: player_walk_down_5
       rect:
         serializedVersion: 2
-        x: 1090
-        y: 5
-        width: 152
-        height: 258
+        x: 543
+        y: 0
+        width: 81
+        height: 134
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

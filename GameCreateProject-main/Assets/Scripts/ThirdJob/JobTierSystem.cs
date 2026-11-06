@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
@@ -72,6 +72,8 @@ public class JobTierSystem : MonoBehaviour
     private Button confirmButton;
     private Text confirmLabel;
     private Text fourthTitle;
+    private bool framed; // 도트 테두리(나무/돌)를 쓰는지
+    private Button thirdLater;
     private RectTransform fourthList;
 
     private static readonly Color ShadowUI = new Color(0.78f, 0.55f, 1f);
@@ -272,16 +274,27 @@ public class JobTierSystem : MonoBehaviour
     {
         bool[] ok = { Allowed(ArcherBranch.Shadow), Allowed(ArcherBranch.Storm) };
         Color[] col = { ShadowUI, StormUI };
-        string versus = $"힘 {Str}  ·  스킬 피해력 {Skl}";
+        string versus = Str == 0 && Skl == 0
+            ? "힘 0  ·  스킬 피해력 0  (TAB에서 스탯을 찍으면 길이 정해져요)"
+            : $"힘 {Str}  ·  스킬 피해력 {Skl}";
         for (int i = 0; i < 2; i++)
         {
             cardLocks[i].SetActive(!ok[i]);
             cardButtons[i].interactable = ok[i];
-            cardFrames[i].color = i == selected ? col[i] : new Color(col[i].r, col[i].g, col[i].b, ok[i] ? 0.35f : 0.15f);
+            if (framed)
+            {
+                // 도트 테두리: 고른 카드는 밝고 크게, 나머지는 어둡게
+                float v = i == selected ? 1f : ok[i] ? 0.62f : 0.45f;
+                cardFrames[i].color = new Color(v, v, v, 1f);
+                cardFrames[i].rectTransform.localScale = Vector3.one * (i == selected ? 1f : 0.96f);
+            }
+            else cardFrames[i].color = i == selected ? col[i] : new Color(col[i].r, col[i].g, col[i].b, ok[i] ? 0.35f : 0.15f);
             cardStats[i].text = versus;
         }
         confirmButton.interactable = selected >= 0;
-        confirmLabel.text = selected == 0 ? shadowName + "로 전직" : selected == 1 ? stormName + "으로 전직" : "직업을 선택하세요";
+        confirmLabel.text = selected == 0 ? JobWindowSkin.WithRo(shadowName) + " 전직"
+                          : selected == 1 ? JobWindowSkin.WithRo(stormName) + " 전직" : "직업을 선택하세요";
+        if (framed) JobWindowSkin.FitRow(-440f, 28f, confirmButton, thirdLater); // 글자에 딱 맞게, 가운데 정렬
     }
 
     private void SelectCard(int i)
@@ -316,7 +329,7 @@ public class JobTierSystem : MonoBehaviour
             IFourthJobSkill s = (IFourthJobSkill)b;
             if (s.Branch != Branch) continue;
             RectTransform r = Centered("Skill" + row, fourthList, new Vector2(0f, 95f - row * 190f), new Vector2(1000f, 170f));
-            AddImage(r, new Color(0.16f, 0.12f, 0.22f, 1f), false);
+            AddImage(r, framed ? new Color(0.22f, 0.16f, 0.3f, 0.75f) : new Color(0.16f, 0.12f, 0.22f, 1f), false);
             RectTransform ic = Centered("Icon", r, new Vector2(-405f, 0f), new Vector2(136f, 136f));
             AddImage(Centered("Frame", r, new Vector2(-405f, 0f), new Vector2(146f, 146f)), col, false).transform.SetAsFirstSibling();
             Image icon = AddImage(ic, Color.white, false);
@@ -366,36 +379,48 @@ public class JobTierSystem : MonoBehaviour
         scaler.matchWidthOrHeight = 0.5f;
         RectTransform root = (RectTransform)canvasObject.transform;
 
-        // ── 3차 선택 창
+        framed = JobWindowSkin.HasFrames;
+
+        // ── 3차 선택 창 (위쪽 시간판과 안 겹치게 전체를 조금 아래로)
         RectTransform third = Stretch("Third", root);
         thirdRoot = third.gameObject;
         AddImage(third, new Color(0f, 0f, 0f, 0.78f), true);
-        Label("Title", third, font, "3차 전직", 68, new Color(1f, 0.85f, 0.45f), new Vector2(0f, 440f), new Vector2(900f, 90f));
-        Label("Sub", third, font, $"Lv{thirdLevel} 달성!  스탯에 따라 갈 수 있는 길이 정해져요", 30, new Color(0.85f, 0.87f, 0.9f), new Vector2(0f, 372f), new Vector2(1200f, 44f));
-        MakeCard(0, third, font, new Vector2(-370f, -10f), shadowName, "표식 · 저격 · 분신  /  한 방 위주  ·  AD 계수(힘)", "힘이 스킬 피해력보다 높아야 선택 가능", shadowArt, ShadowUI, new Color(0.12f, 0.07f, 0.18f, 1f));
-        MakeCard(1, third, font, new Vector2(370f, -10f), stormName, "바람 · 회오리 · 연사  /  범위 위주  ·  AP 계수(스킬 피해력)", "스킬 피해력이 힘보다 높아야 선택 가능", stormArt, StormUI, new Color(0.07f, 0.15f, 0.17f, 1f));
-        RectTransform confirm = Centered("Confirm", third, new Vector2(-150f, -455f), new Vector2(420f, 80f));
+        Text t3 = Label("Title", third, font, "3차 전직", 64, new Color(1f, 0.85f, 0.45f), new Vector2(0f, 385f), new Vector2(900f, 84f));
+        Text s3 = Label("Sub", third, font, $"Lv{thirdLevel} 달성!  스탯에 따라 갈 수 있는 길이 정해져요", 28, new Color(0.9f, 0.9f, 0.92f), new Vector2(0f, 325f), new Vector2(1200f, 42f));
+        JobWindowSkin.Outline(t3, 3f); JobWindowSkin.Outline(s3, 2f);
+        MakeCard(0, third, font, new Vector2(-350f, -45f), shadowName, "표식 · 저격 · 분신  /  한 방 위주  ·  AD 계수(힘)", "힘이 스킬 피해력보다 높아야 선택 가능", shadowArt, ShadowUI, new Color(0.12f, 0.07f, 0.18f, 1f));
+        MakeCard(1, third, font, new Vector2(350f, -45f), stormName, "바람 · 회오리 · 연사  /  범위 위주  ·  AP 계수(스킬 피해력)", "스킬 피해력이 힘보다 높아야 선택 가능", stormArt, StormUI, new Color(0.07f, 0.15f, 0.17f, 1f));
+        RectTransform confirm = Centered("Confirm", third, new Vector2(-215f, -440f), new Vector2(400f, 76f)); // 두 버튼 같은 크기, 가운데 기준 좌우 대칭
         Image ci = AddImage(confirm, new Color(0.55f, 0.38f, 0.8f), true);
         confirmButton = confirm.gameObject.AddComponent<Button>();
         confirmButton.targetGraphic = ci;
         confirmButton.navigation = new Navigation { mode = Navigation.Mode.None };
         ColorBlock cb = confirmButton.colors; cb.disabledColor = new Color(0.45f, 0.45f, 0.45f, 0.6f); confirmButton.colors = cb;
         confirmButton.onClick.AddListener(ConfirmThird);
-        confirmLabel = Label("Label", confirm, font, "", 30, Color.white, Vector2.zero, new Vector2(420f, 80f));
-        MakeButton("Later", third, font, "나중에", new Color(0.22f, 0.24f, 0.3f), new Vector2(170f, -455f), new Vector2(200f, 80f), Later);
+        confirmLabel = Label("Label", confirm, font, "", 28, Color.white, Vector2.zero, new Vector2(400f, 76f));
+        Button later3 = MakeButton("Later", third, font, "나중에", new Color(0.22f, 0.24f, 0.3f), new Vector2(215f, -440f), new Vector2(400f, 76f), Later);
+        thirdLater = later3;
+        if (framed) { JobWindowSkin.SkinButton(confirmButton, true); JobWindowSkin.SkinButton(later3, false); }
         thirdRoot.SetActive(false);
 
         // ── 4차 창
         RectTransform fourth = Stretch("Fourth", root);
         fourthRoot = fourth.gameObject;
         AddImage(fourth, new Color(0f, 0f, 0f, 0.78f), true);
-        RectTransform box = Centered("Box", fourth, Vector2.zero, new Vector2(1140f, 780f));
-        AddImage(box, new Color(0.1f, 0.07f, 0.15f, 0.97f), true);
-        Label("Title", box, font, "4차 전직", 66, new Color(1f, 0.85f, 0.45f), new Vector2(0f, 320f), new Vector2(900f, 90f));
-        fourthTitle = Label("Sub", box, font, "", 30, new Color(0.9f, 0.9f, 0.92f), new Vector2(0f, 250f), new Vector2(1100f, 44f));
-        fourthList = Centered("List", box, new Vector2(0f, 10f), new Vector2(1000f, 400f));
-        MakeButton("Yes", box, font, "4차 전직하기", new Color(0.55f, 0.38f, 0.8f), new Vector2(-170f, -310f), new Vector2(300f, 80f), ConfirmFourth);
-        MakeButton("Later", box, font, "나중에", new Color(0.22f, 0.24f, 0.3f), new Vector2(170f, -310f), new Vector2(300f, 80f), Later);
+        RectTransform box = Centered("Box", fourth, new Vector2(0f, -20f), new Vector2(1140f, 780f));
+        Image boxImage = AddImage(box, new Color(0.1f, 0.07f, 0.15f, 0.97f), true);
+        if (framed) JobWindowSkin.Frame(boxImage, JobWindowSkin.Fourth); // 4차 = 금장식 테두리
+        Text t4 = Label("Title", box, font, "4차 전직", 66, new Color(1f, 0.85f, 0.45f), new Vector2(0f, 300f), new Vector2(900f, 90f));
+        fourthTitle = Label("Sub", box, font, "", 30, new Color(0.9f, 0.9f, 0.92f), new Vector2(0f, 232f), new Vector2(1000f, 44f));
+        JobWindowSkin.Outline(t4, 3f); JobWindowSkin.Outline(fourthTitle, 2f);
+        fourthList = Centered("List", box, new Vector2(0f, 0f), new Vector2(1000f, 400f));
+        Button yes4 = MakeButton("Yes", box, font, "4차 전직하기", new Color(0.55f, 0.38f, 0.8f), new Vector2(-170f, -300f), new Vector2(300f, 76f), ConfirmFourth);
+        Button later4 = MakeButton("Later", box, font, "나중에", new Color(0.22f, 0.24f, 0.3f), new Vector2(170f, -300f), new Vector2(300f, 76f), Later);
+        if (framed)
+        {
+            JobWindowSkin.SkinButton(yes4, true); JobWindowSkin.SkinButton(later4, false);
+            JobWindowSkin.FitRow(-300f, 28f, yes4, later4);
+        }
         fourthRoot.SetActive(false);
 
         // ── 나중에 → 화면 왼쪽 위 버튼 (2차 버튼 아래)
@@ -413,13 +438,23 @@ public class JobTierSystem : MonoBehaviour
         laterLabel = Label("Label", later, font, "3차 전직 하기", 24, Color.white, Vector2.zero, new Vector2(230f, 44f));
         laterButton = later.gameObject;
         laterButton.SetActive(false);
+
+        // HUD의 CHOOSE JOB 버튼과 같은 모양·같은 자리로 (도트 UI가 있을 때)
+        Button hudLater = JobWindowSkin.CloneHudJobButton("ThirdJobLaterButton", "3차 전직 하기", OnLaterButton, out Text hudLabel);
+        if (hudLater != null)
+        {
+            Destroy(laterButton);
+            laterButton = hudLater.gameObject;
+            laterLabel = hudLabel;
+        }
     }
 
     private void MakeCard(int i, RectTransform parent, Font font, Vector2 pos, string title, string sub, string lockText,
         Sprite art, Color col, Color bg)
     {
-        RectTransform card = Centered("Card" + i, parent, pos, new Vector2(660f, 700f));
+        RectTransform card = Centered("Card" + i, parent, pos, new Vector2(660f, 640f));
         cardFrames[i] = AddImage(card, col, true);
+        if (framed) JobWindowSkin.Frame(cardFrames[i], i == 0 ? JobWindowSkin.Shadow : JobWindowSkin.Storm);
         cardButtons[i] = card.gameObject.AddComponent<Button>();
         cardButtons[i].targetGraphic = cardFrames[i];
         cardButtons[i].transition = Selectable.Transition.None;
@@ -427,23 +462,29 @@ public class JobTierSystem : MonoBehaviour
         int index = i;
         cardButtons[i].onClick.AddListener(() => SelectCard(index));
 
-        RectTransform inner = Centered("Inner", card, Vector2.zero, new Vector2(648f, 688f));
-        AddImage(inner, bg, false);
-        RectTransform artRect = Centered("Art", inner, new Vector2(0f, 95f), new Vector2(620f, 470f));
-        AddImage(artRect, new Color(0f, 0f, 0f, 0.25f), false);
-        Image a = AddImage(Centered("Img", artRect, Vector2.zero, new Vector2(620f, 470f)), Color.white, false);
+        // 테두리 안쪽 (도트 테두리면 테두리 두께만큼 들여서, 아니면 6픽셀)
+        float inset = framed ? JobWindowSkin.Inset(JobWindowSkin.Shadow) : 6f;
+        RectTransform inner = Stretch("Inner", card);
+        inner.offsetMin = new Vector2(inset, inset);
+        inner.offsetMax = new Vector2(-inset, -inset);
+        AddImage(inner, framed ? new Color(bg.r, bg.g, bg.b, 0.55f) : bg, false);
+        float w = 660f - inset * 2f;
+        float artW = w - 30f, artH = artW * 819f / 1456f;
+        RectTransform artRect = Centered("Art", inner, new Vector2(0f, 100f), new Vector2(artW, artH));
+        Image a = AddImage(artRect, Color.white, false);
         a.sprite = art;
         a.preserveAspect = true;
         if (art == null) a.color = new Color(col.r, col.g, col.b, 0.15f);
 
-        Label("Name", inner, font, title, 46, col, new Vector2(0f, -195f), new Vector2(620f, 60f));
-        Label("Sub", inner, font, sub, 24, new Color(0.85f, 0.85f, 0.88f), new Vector2(0f, -248f), new Vector2(620f, 34f));
-        cardStats[i] = Label("Stat", inner, font, "", 26, new Color(1f, 0.85f, 0.45f), new Vector2(0f, -298f), new Vector2(620f, 36f));
+        Text nameText = Label("Name", inner, font, title, 44, col, new Vector2(0f, -105f), new Vector2(w, 56f));
+        Text subText = Label("Sub", inner, font, sub, 22, new Color(0.88f, 0.88f, 0.9f), new Vector2(0f, -152f), new Vector2(w - 20f, 32f));
+        cardStats[i] = Label("Stat", inner, font, "", 22, new Color(1f, 0.85f, 0.45f), new Vector2(0f, -196f), new Vector2(w - 20f, 32f));
+        JobWindowSkin.Outline(nameText, 2.5f);
 
-        RectTransform lockRect = Stretch("Lock", card);
+        RectTransform lockRect = Stretch("Lock", inner);
         AddImage(lockRect, new Color(0f, 0f, 0f, 0.62f), false);
-        Label("LockIcon", lockRect, font, "잠김", 44, Color.white, new Vector2(0f, 40f), new Vector2(600f, 60f));
-        Label("LockText", lockRect, font, lockText, 26, new Color(0.9f, 0.9f, 0.9f), new Vector2(0f, -15f), new Vector2(600f, 40f));
+        Label("LockIcon", lockRect, font, "잠김", 44, Color.white, new Vector2(0f, 40f), new Vector2(w, 60f));
+        Label("LockText", lockRect, font, lockText, 24, new Color(0.9f, 0.9f, 0.9f), new Vector2(0f, -15f), new Vector2(w, 40f));
         cardLocks[i] = lockRect.gameObject;
     }
 
@@ -453,7 +494,7 @@ public class JobTierSystem : MonoBehaviour
         return tex != null ? Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0.5f, 0.5f), 100f) : null;
     }
 
-    private static void MakeButton(string name, Transform parent, Font font, string label, Color color,
+    private static Button MakeButton(string name, Transform parent, Font font, string label, Color color,
         Vector2 position, Vector2 size, UnityAction onClick)
     {
         RectTransform rect = Centered(name, parent, position, size);
@@ -462,7 +503,8 @@ public class JobTierSystem : MonoBehaviour
         button.targetGraphic = image;
         button.navigation = new Navigation { mode = Navigation.Mode.None };
         button.onClick.AddListener(onClick);
-        Label("Label", rect, font, label, 30, Color.white, Vector2.zero, size);
+        Label("Label", rect, font, label, 28, Color.white, Vector2.zero, size);
+        return button;
     }
 
     private static RectTransform Stretch(string name, Transform parent)

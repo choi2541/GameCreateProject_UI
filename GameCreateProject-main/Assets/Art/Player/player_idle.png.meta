@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: eaac82a24a01fd44fa7f42e72302764f
+guid: b195032fa9e16eb40980a630fe376b81
 TextureImporter:
   internalIDToNameTable:
   - first:
@@ -48,7 +48,7 @@ TextureImporter:
     serializedVersion: 2
     filterMode: 1
     aniso: 1
-    mipBias: 0
+    mipBias: -0.7
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -114,10 +114,10 @@ TextureImporter:
       name: player_idle_0
       rect:
         serializedVersion: 2
-        x: 19
-        y: 5
-        width: 152
-        height: 258
+        x: 6
+        y: 0
+        width: 83
+        height: 134
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -136,10 +136,10 @@ TextureImporter:
       name: player_idle_1
       rect:
         serializedVersion: 2
-        x: 223
-        y: 5
-        width: 153
-        height: 258
+        x: 108
+        y: 0
+        width: 83
+        height: 134
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -158,10 +158,10 @@ TextureImporter:
       name: player_idle_2
       rect:
         serializedVersion: 2
-        x: 425
-        y: 5
-        width: 157
-        height: 258
+        x: 209
+        y: 0
+        width: 85
+        height: 134
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -180,10 +180,10 @@ TextureImporter:
       name: player_idle_3
       rect:
         serializedVersion: 2
-        x: 631
-        y: 5
-        width: 152
-        height: 257
+        x: 312
+        y: 0
+        width: 83
+        height: 134
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

@@ -236,7 +236,7 @@ public class SkillSlotUI : MonoBehaviour
             {
                 lastKeySource = key; lastKeyCharges = charges;
                 keyText.text = skillSource is StackDashUIAdapter d3
-                    ? $"{PrettyKey(d3.KeyLabel)}  {d3.Charges}/{d3.MaxCharges}"
+                    ? $"{PrettyKey(d3.KeyLabel)} {d3.Charges}/{d3.MaxCharges}"
                     : hasSkill ? PrettyKey(skill.KeyLabel) : SlotKey;
             }
         }

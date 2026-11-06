@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 // [2차 대쉬] 도약 사격 : 팀 대쉬(Shift)를 쓰면 몹을 뛰어넘듯 높이 도약하고,
 // 착지하면 화살 3발을 탕-탕-탕 연달아 쏨. (대쉬 이동·충전·몹 통과는 팀 대쉬 그대로)
@@ -66,7 +66,8 @@ public class LeapShotDash : DashAddon, ISecondJobSkill
         shadow.gameObject.SetActive(true);
         body.enabled = false;
         UpdateLeap();
-        SkillFx.Burst(from, 0.3f, 1.2f, new Color(0.75f, 0.95f, 1f, 0.5f), 0.2f, true);
+        if (!SkillFx.Anim("leap_up", from + Vector2.down * 0.45f, 1.6f, 0.3f, 0f, 4))
+            SkillFx.Burst(from, 0.3f, 1.2f, new Color(0.75f, 0.95f, 1f, 0.5f), 0.2f, true);
     }
 
     protected override void OnDashTick(Vector2 from, Vector2 to)
@@ -81,7 +82,8 @@ public class LeapShotDash : DashAddon, ISecondJobSkill
 
         // 착지 사격: 한 발씩 연달아, 쏘는 순간의 가장 가까운 적에게
         StartCoroutine(FireVolley());
-        SkillFx.Burst(at, 0.3f, 1.6f, new Color(0.75f, 0.95f, 1f, 0.6f), 0.22f, true);
+        if (!SkillFx.Anim("leap_land", at + Vector2.down * 0.45f, 2f, 0.3f, 0f, 4))
+            SkillFx.Burst(at, 0.3f, 1.6f, new Color(0.75f, 0.95f, 1f, 0.6f), 0.22f, true);
     }
 
     protected override void OnDisable()

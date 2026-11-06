@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 // [3차 폭풍 SHIFT] 바람 돌진 : 팀 대쉬(Shift)로 지나가는 길의 적에게 피해 + 양옆으로 밀쳐냄
@@ -28,8 +28,11 @@ public class WindRushDash : DashAddon, IThirdJobSkill
     protected override void OnDashTick(Vector2 from, Vector2 to)
     {
         // 바람 줄기 잔상
-        JobTierUtil.FlashLine(from + side * 0.3f, to + side * 0.3f, new Color(0.7f, 1f, 0.9f, 0.5f), 0.08f, 0.25f, false);
-        JobTierUtil.FlashLine(from - side * 0.3f, to - side * 0.3f, new Color(0.7f, 1f, 0.9f, 0.5f), 0.08f, 0.25f, false);
+        if ((to - from).sqrMagnitude < 0.0001f || !SkillFx.Beam("wind_rush", from - (to - from).normalized * 0.6f, to, 1.1f, 0.3f, 58))
+        {
+            JobTierUtil.FlashLine(from + side * 0.3f, to + side * 0.3f, new Color(0.7f, 1f, 0.9f, 0.5f), 0.08f, 0.25f, false);
+            JobTierUtil.FlashLine(from - side * 0.3f, to - side * 0.3f, new Color(0.7f, 1f, 0.9f, 0.5f), 0.08f, 0.25f, false);
+        }
 
         List<EnemyHealth> all = SkillUtil.EnemiesNow(Enemies);
         for (int i = 0; i < all.Count; i++)

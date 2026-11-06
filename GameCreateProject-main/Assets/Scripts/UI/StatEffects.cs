@@ -179,6 +179,9 @@ public class StatEffects : MonoBehaviour
         if (progression == null) return 0;
         int level = progression.Level;
         long total = progression.Experience;
+        // 팀원 경험치 코드가 공용 곡선(LevelCurve)을 쓰면 그걸로, 아니면 예전 숫자(1레벨 5, 그 뒤 10)로 계산
+        if (progression.RequiredExperience == LevelCurve.Required(level) && level < 100000)
+            return total + LevelCurve.TotalBefore(level);
         if (level >= 2) total += firstLevelExp + (long)(level - 2) * otherLevelExp;
         return total;
     }

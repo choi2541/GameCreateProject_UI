@@ -29,6 +29,8 @@ public class PlayerStats : MonoBehaviour
     public static PlayerStats Instance { get; private set; }
 
     [SerializeField, Min(0)] private int pointsPerLevel = 3;
+    [Tooltip("켜면 스탯마다 최대치 없이 무한으로 찍을 수 있음 (레벨도 무한이라서). 끄면 각 스탯의 Max Value까지만")]
+    [SerializeField] private bool unlimitedStats = true;
     [SerializeField, Min(0)] private int startingPoints = 0;
 
     [Header("스킬에 바로 적용되는 스탯 (SKL, CDR)")]
@@ -192,7 +194,7 @@ public class PlayerStats : MonoBehaviour
     public bool CanAddPoint(int index)
     {
         return isActiveAndEnabled && index >= 0 && index < Count
-            && AvailablePoints > 0 && GetValue(index) < stats[index].maxValue;
+            && AvailablePoints > 0 && (unlimitedStats || GetValue(index) < stats[index].maxValue);
     }
 
     public bool AddPoint(int index) => AddPoints(index, 1);
@@ -201,7 +203,7 @@ public class PlayerStats : MonoBehaviour
     public bool CanAddPoints(int index, int amount)
     {
         return amount > 0 && isActiveAndEnabled && index >= 0 && index < Count
-            && AvailablePoints >= amount && GetValue(index) + amount <= stats[index].maxValue;
+            && AvailablePoints >= amount && (unlimitedStats || GetValue(index) + amount <= stats[index].maxValue);
     }
 
     public bool AddPoints(int index, int amount)

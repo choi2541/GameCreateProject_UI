@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 // 게임 중에 새로 만들어지는 UI가 쓰는 그림 (4차 칸 고리, 스탯 룬). 게임 씬 HUD에 붙어 있음 (Pixel UI - Apply 메뉴가 채움)
@@ -16,6 +16,19 @@ public class PixelUISprites : MonoBehaviour
     [Header("스탯 룬 (STR, VIT, SPD, EXP, SKL, CDR 순서)")]
     public Sprite[] runes = new Sprite[6];
     private static readonly string[] RuneIds = { "STR", "VIT", "SPD", "EXP", "SKL", "CDR" };
+
+    [Header("전직 창 (2·3·4차) — 테마(나무/돌)에 맞춰 Pixel UI - Apply가 채움")]
+    [Tooltip("카드 테두리: 0 = 2차, 1 = 3차 그림자, 2 = 3차 폭풍, 3 = 4차")]
+    public Sprite[] jobFrames = new Sprite[4];
+    public Sprite buttonNormal, buttonGreen, buttonDisabled;
+    [Tooltip("버튼 그림에서 몸통 바깥 장식 크기 (왼, 아래, 오른, 위)")]
+    public Vector4 buttonNormalInset, buttonGreenInset, buttonDisabledInset;
+
+    public static Sprite JobFrame(int index)
+    {
+        PixelUISprites s = Instance;
+        return s != null && s.jobFrames != null && index >= 0 && index < s.jobFrames.Length ? s.jobFrames[index] : null;
+    }
 
     private static PixelUISprites cached;
     public static PixelUISprites Instance

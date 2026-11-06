@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 97db9af138709924387a5ec4477adb5c
+guid: e7eb837089f5ea644a9a8cae9caefbad
 TextureImporter:
   internalIDToNameTable:
   - first:
@@ -105,10 +105,10 @@ TextureImporter:
       name: ui_skill_slot_locked_0
       rect:
         serializedVersion: 2
-        x: 22
-        y: 22
-        width: 553
-        height: 554
+        x: 6
+        y: 6
+        width: 227
+        height: 228
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

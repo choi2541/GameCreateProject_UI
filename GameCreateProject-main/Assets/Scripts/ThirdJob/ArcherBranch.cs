@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
@@ -344,6 +344,8 @@ public class ShadowMark : MonoBehaviour
     private SpriteRenderer icon;
     private Transform iconRoot;
     private float age;
+    private Sprite[] markFrames;
+    private float markScale = 1f;
 
     public static void Apply(EnemyHealth enemy, float seconds)
     {
@@ -404,6 +406,14 @@ public class ShadowMark : MonoBehaviour
         icon.sprite = SkillUtil.CircleSprite();
         icon.color = JobTierUtil.ShadowColor;
         icon.sortingOrder = 59;
+        markFrames = SkillFx.Frames("legion_mark"); // 표식 그림이 있으면 그걸로
+        if (markFrames != null)
+        {
+            iconRoot.localRotation = Quaternion.identity;
+            icon.sprite = markFrames[0];
+            icon.color = Color.white;
+            markScale = 0.75f / Mathf.Max(0.01f, markFrames[0].bounds.size.y);
+        }
         SkillFx.Burst(transform.position, 0.2f, 1.2f, JobTierUtil.ShadowColor, 0.2f, true);
     }
 
@@ -422,11 +432,18 @@ public class ShadowMark : MonoBehaviour
         {
             // 처음엔 크게 나타났다가 작아지고, 위아래로 둥실
             float pop = 1f + Mathf.Max(0f, 0.25f - age) * 4f;
-            iconRoot.localScale = new Vector3(0.28f, 0.28f, 1f) * pop;
             iconRoot.localPosition = new Vector3(0f, 0.75f + Mathf.Sin(age * 5f) * 0.06f, 0f);
-            Color c = JobTierUtil.ShadowColor;
+            Color c = markFrames != null ? Color.white : JobTierUtil.ShadowColor;
             c.a = remaining < 1f ? Mathf.Clamp01(remaining) * pulse : 1f; // 끝나기 1초 전부터 깜빡임
             icon.color = c;
+            if (markFrames != null && markFrames.Length >= 6)
+            {
+                // 표식 그림: 0~2 나타남 → 3~5 반짝이며 반복
+                int f = age < 0.3f ? Mathf.Min(2, Mathf.FloorToInt(age / 0.3f * 3f)) : 3 + Mathf.FloorToInt((age - 0.3f) * 6f) % 3;
+                icon.sprite = markFrames[f];
+                iconRoot.localScale = new Vector3(markScale, markScale, 1f);
+            }
+            else iconRoot.localScale = new Vector3(0.28f, 0.28f, 1f) * pop;
         }
         if (remaining <= 0f) { removedByCode = true; Destroy(this); }
     }

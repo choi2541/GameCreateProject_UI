@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: a1121b1c97fb2044fada867c9b03c98d
+guid: 7ed00efedb724334ba49f18b133d13d9
 TextureImporter:
   internalIDToNameTable:
   - first:
@@ -24,7 +24,7 @@ TextureImporter:
   serializedVersion: 13
   mipmaps:
     mipMapMode: 0
-    enableMipMap: 0
+    enableMipMap: 1
     sRGBTexture: 1
     linearTexture: 0
     fadeOut: 0
@@ -54,7 +54,7 @@ TextureImporter:
     serializedVersion: 2
     filterMode: 1
     aniso: 1
-    mipBias: 0
+    mipBias: -0.7
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -74,7 +74,7 @@ TextureImporter:
   spriteTessellationMethod: 0
   spriteTessellationDetail: -1
   spriteGeometrySubdivision: -1
-  textureType: 8
+  textureType: 0
   textureShape: 1
   singleChannelComponent: 0
   flipbookRows: 1
@@ -89,10 +89,10 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 4
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 2048
+    maxTextureSize: 4096
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 2
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -120,10 +120,10 @@ TextureImporter:
       name: novice_attack_slash_0
       rect:
         serializedVersion: 2
-        x: 56
-        y: 5
-        width: 187
-        height: 258
+        x: 27
+        y: 0
+        width: 75
+        height: 135
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -142,10 +142,10 @@ TextureImporter:
       name: novice_attack_slash_1
       rect:
         serializedVersion: 2
-        x: 413
-        y: 5
-        width: 172
-        height: 258
+        x: 156
+        y: 0
+        width: 74
+        height: 135
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -164,10 +164,10 @@ TextureImporter:
       name: novice_attack_slash_2
       rect:
         serializedVersion: 2
-        x: 740
-        y: 5
-        width: 176
-        height: 258
+        x: 278
+        y: 0
+        width: 85
+        height: 150
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -186,10 +186,10 @@ TextureImporter:
       name: novice_attack_slash_3
       rect:
         serializedVersion: 2
-        x: 1078
-        y: 5
-        width: 238
-        height: 258
+        x: 408
+        y: 0
+        width: 82
+        height: 130
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -208,10 +208,10 @@ TextureImporter:
       name: novice_attack_slash_4
       rect:
         serializedVersion: 2
-        x: 1420
-        y: 5
-        width: 168
-        height: 258
+        x: 532
+        y: 0
+        width: 84
+        height: 126
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -230,10 +230,10 @@ TextureImporter:
       name: novice_attack_slash_5
       rect:
         serializedVersion: 2
-        x: 1734
-        y: 5
-        width: 187
-        height: 258
+        x: 667
+        y: 0
+        width: 75
+        height: 135
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

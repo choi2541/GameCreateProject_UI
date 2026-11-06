@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 // 적을 잠깐 멈추게 합니다 (기절). 적의 EnemyMovement를 잠시 끄는 방식이라 팀 코드를 고치지 않습니다.
 public class SkillStun : MonoBehaviour
@@ -18,6 +18,14 @@ public class SkillStun : MonoBehaviour
         if (stun == null)
             stun = enemy.gameObject.AddComponent<SkillStun>();
         stun.remaining = Mathf.Max(stun.remaining, seconds);
+    }
+
+    // 색을 바꿔서 멈춤 (예: 가시 덩굴 속박 = 초록)
+    public static void Apply(EnemyHealth enemy, float seconds, Color tint)
+    {
+        Apply(enemy, seconds);
+        SkillStun stun = enemy != null ? enemy.GetComponent<SkillStun>() : null;
+        if (stun != null) stun.Tint(tint);
     }
 
     private void Awake()

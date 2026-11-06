@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
@@ -51,7 +51,7 @@ public class SecondJobSystem : MonoBehaviour
     [SerializeField]
     private SecondJob[] jobs =
     {
-        new SecondJob { displayName = "2차 궁수", description = "부채꼴 연사 · 화살비\n크리스탈 애로우 · 회피 사격" },
+        new SecondJob { displayName = "2차 궁수", description = "부채꼴 연사 · 화살비\n가시 덩굴 화살 · 회피 사격" },
     };
 
     [Header("2차 전직 순간 실행할 것 (예: 대쉬 데미지 켜기)")]
@@ -88,6 +88,7 @@ public class SecondJobSystem : MonoBehaviour
     private Image[] boxes;
     private Button confirmButton;
     private int selected = -1;
+    private bool framed; // 도트 테두리(나무/돌)를 쓰는지
 
     private static readonly Color BoxColor = new Color(0.13f, 0.15f, 0.2f, 1f);
     private static readonly Color SelectedColor = new Color(0.22f, 0.4f, 0.32f, 1f);
@@ -107,7 +108,11 @@ public class SecondJobSystem : MonoBehaviour
 
         // 2차 스킬은 전직 전까지 꺼둡니다.
         foreach (SecondJob job in jobs)
+        {
             SetEnabled(job.enableSkills, false);
+            // 씬에 저장된 예전 이름(크리스탈 애로우) → 새 이름
+            if (job.description != null) job.description = job.description.Replace("크리스탈 애로우", CrystalArrowSkill.DisplayName);
+        }
     }
 
     private void OnDestroy()
@@ -297,7 +302,15 @@ public class SecondJobSystem : MonoBehaviour
     {
         if (boxes == null) return;
         for (int i = 0; i < boxes.Length; i++)
-            boxes[i].color = i == selected ? SelectedColor : BoxColor;
+        {
+            if (framed)
+            {
+                float v = i == selected ? 1f : 0.62f;
+                boxes[i].color = new Color(v, v, v, 1f);
+                boxes[i].rectTransform.localScale = Vector3.one * (i == selected ? 1f : 0.96f);
+            }
+            else boxes[i].color = i == selected ? SelectedColor : BoxColor;
+        }
         if (confirmButton != null)
             confirmButton.interactable = selected >= 0;
     }
@@ -325,21 +338,29 @@ public class SecondJobSystem : MonoBehaviour
         scaler.referenceResolution = new Vector2(1920f, 1080f);
         scaler.matchWidthOrHeight = 0.5f;
         RectTransform canvasRoot = (RectTransform)canvasObject.transform;
+        framed = JobWindowSkin.HasFrames;
 
         // ① 확인 창: "2차 전직을 하시겠습니까?"
         RectTransform prompt = Rect("Prompt", canvasRoot, Vector2.zero, Vector2.one, Vector2.zero, Vector2.zero);
         promptRoot = prompt.gameObject;
         AddImage(prompt, new Color(0f, 0f, 0f, 0.7f), true);
-        RectTransform promptBox = Centered("Box", prompt, Vector2.zero, new Vector2(760f, 380f));
-        AddImage(promptBox, new Color(0.08f, 0.09f, 0.12f, 0.97f), true);
-        Label("Level", promptBox, font, $"Lv.{requiredLevel} 달성!", 34, new Color(1f, 0.8f, 0.28f),
-            new Vector2(0f, 120f), new Vector2(700f, 50f));
-        Label("Question", promptBox, font, "2차 전직을 하시겠습니까?", 46, Color.white,
-            new Vector2(0f, 40f), new Vector2(700f, 70f));
-        MakeButton("Yes", promptBox, font, "예", new Color(0.22f, 0.55f, 0.36f),
-            new Vector2(-150f, -100f), new Vector2(260f, 80f), OpenSelection);
-        MakeButton("Later", promptBox, font, "나중에", new Color(0.2f, 0.23f, 0.31f),
-            new Vector2(150f, -100f), new Vector2(260f, 80f), Later);
+        RectTransform promptBox = Centered("Box", prompt, Vector2.zero, new Vector2(760f, 400f));
+        Image promptImage = AddImage(promptBox, new Color(0.08f, 0.09f, 0.12f, 0.97f), true);
+        if (framed) JobWindowSkin.Frame(promptImage, JobWindowSkin.Second);
+        Text lv = Label("Level", promptBox, font, $"Lv.{requiredLevel} 달성!", 34, new Color(1f, 0.8f, 0.28f),
+            new Vector2(0f, 110f), new Vector2(640f, 50f));
+        Text q = Label("Question", promptBox, font, "2차 전직을 하시겠습니까?", 44, Color.white,
+            new Vector2(0f, 35f), new Vector2(640f, 70f));
+        JobWindowSkin.Outline(lv, 2f); JobWindowSkin.Outline(q, 2.5f);
+        Button yes = MakeButton("Yes", promptBox, font, "예", new Color(0.22f, 0.55f, 0.36f),
+            new Vector2(-140f, -100f), new Vector2(240f, 76f), OpenSelection);
+        Button no = MakeButton("Later", promptBox, font, "나중에", new Color(0.2f, 0.23f, 0.31f),
+            new Vector2(140f, -100f), new Vector2(240f, 76f), Later);
+        if (framed)
+        {
+            JobWindowSkin.SkinButton(yes, true); JobWindowSkin.SkinButton(no, false);
+            JobWindowSkin.FitRow(-100f, 28f, yes, no);
+        }
         promptRoot.SetActive(false);
 
         // ③ "나중에"를 눌렀을 때 화면 왼쪽 위에 남는 버튼
@@ -358,34 +379,66 @@ public class SecondJobSystem : MonoBehaviour
         laterButton = later.gameObject;
         laterButton.SetActive(false);
 
+        // HUD의 CHOOSE JOB 버튼과 같은 모양·같은 자리로 (도트 UI가 있을 때)
+        Button hudLater = JobWindowSkin.CloneHudJobButton("SecondJobLaterButton", "2차 전직 하기", OnLaterButton, out Text _);
+        if (hudLater != null)
+        {
+            Destroy(laterButton);
+            laterButton = hudLater.gameObject;
+        }
+
         // ② 직업 선택 창
         RectTransform root = Rect("Select", canvasRoot, Vector2.zero, Vector2.one, Vector2.zero, Vector2.zero);
         selectRoot = root.gameObject;
         AddImage(root, new Color(0f, 0f, 0f, 0.75f), true);
 
-        Label("Title", root, font, "2차 전직", 64, new Color(1f, 0.8f, 0.28f),
-            new Vector2(0f, 360f), new Vector2(900f, 90f));
-        Label("Subtitle", root, font, "직업을 선택한 뒤 확인을 눌러주세요.", 28, new Color(0.75f, 0.77f, 0.83f),
-            new Vector2(0f, 290f), new Vector2(900f, 44f));
+        Text title = Label("Title", root, font, "2차 전직", 64, new Color(1f, 0.8f, 0.28f),
+            new Vector2(0f, 385f), new Vector2(900f, 84f));
+        Text subtitle = Label("Subtitle", root, font, "직업을 선택한 뒤 확인을 눌러주세요.", 28, new Color(0.88f, 0.88f, 0.9f),
+            new Vector2(0f, 325f), new Vector2(900f, 42f));
+        JobWindowSkin.Outline(title, 3f); JobWindowSkin.Outline(subtitle, 2f);
 
         // 직업 상자 (가로로 나열)
-        const float boxW = 400f, boxH = 460f, gap = 60f;
+        float boxW = framed ? 600f : 400f, boxH = framed ? 580f : 460f;
+        const float gap = 60f;
+        Sprite fallbackArt = LoadArt("JobArt/select_second"); // 2차 카드 그림 (없으면 그림 없이 글자만)
         float startX = -(jobs.Length - 1) * (boxW + gap) * 0.5f;
         boxes = new Image[jobs.Length];
         for (int i = 0; i < jobs.Length; i++)
         {
             int index = i;
             SecondJob job = jobs[i];
-            RectTransform box = Centered("JobBox" + i, root, new Vector2(startX + i * (boxW + gap), 0f), new Vector2(boxW, boxH));
+            RectTransform box = Centered("JobBox" + i, root, new Vector2(startX + i * (boxW + gap), framed ? -15f : 0f), new Vector2(boxW, boxH));
             boxes[i] = AddImage(box, BoxColor, true);
+            if (framed) JobWindowSkin.Frame(boxes[i], JobWindowSkin.Second);
             Button button = box.gameObject.AddComponent<Button>();
             button.targetGraphic = boxes[i];
             button.navigation = new Navigation { mode = Navigation.Mode.None };
             button.onClick.AddListener(() => Select(index));
 
+            Sprite art = job.icon != null ? job.icon : fallbackArt;
+            if (framed)
+            {
+                // 도트 테두리 카드: 위 = 그림(가로로 긴 일러스트), 아래 = 이름·설명
+                float artW = boxW - 110f, artH = artW * 819f / 1456f;
+                if (art != null)
+                {
+                    Image pic = AddImage(Centered("Art", box, new Vector2(0f, 100f), new Vector2(artW, artH)), Color.white, false);
+                    pic.sprite = art;
+                    pic.preserveAspect = true;
+                }
+                float textY = art != null ? -105f : 40f;
+                Text n = Label("Name", box, font, job.displayName, 44, new Color(0.62f, 0.92f, 0.5f), new Vector2(0f, textY), new Vector2(boxW - 100f, 56f));
+                JobWindowSkin.Outline(n, 2.5f);
+                Text d = Label("Desc", box, font, job.description, 24, new Color(0.88f, 0.88f, 0.9f),
+                    new Vector2(0f, textY - 85f), new Vector2(boxW - 110f, 100f));
+                d.alignment = TextAnchor.UpperCenter;
+                continue;
+            }
+
             RectTransform iconRect = Centered("Icon", box, new Vector2(0f, 90f), new Vector2(200f, 200f));
-            Image icon = AddImage(iconRect, job.icon != null ? Color.white : new Color(1f, 1f, 1f, 0.08f), false);
-            icon.sprite = job.icon;
+            Image icon = AddImage(iconRect, art != null ? Color.white : new Color(1f, 1f, 1f, 0.08f), false);
+            icon.sprite = art;
             icon.preserveAspect = true;
 
             Label("Name", box, font, job.displayName, 40, Color.white, new Vector2(0f, -55f), new Vector2(360f, 56f));
@@ -394,7 +447,7 @@ public class SecondJobSystem : MonoBehaviour
             desc.alignment = TextAnchor.UpperCenter;
         }
 
-        RectTransform confirm = Centered("Confirm", root, new Vector2(0f, -340f), new Vector2(320f, 80f));
+        RectTransform confirm = Centered("Confirm", root, new Vector2(0f, framed ? -390f : -340f), new Vector2(320f, 76f));
         Image confirmImage = AddImage(confirm, new Color(0.22f, 0.55f, 0.36f), true);
         confirmButton = confirm.gameObject.AddComponent<Button>();
         confirmButton.targetGraphic = confirmImage;
@@ -403,12 +456,13 @@ public class SecondJobSystem : MonoBehaviour
         colors.disabledColor = new Color(0.45f, 0.45f, 0.45f, 0.6f);
         confirmButton.colors = colors;
         confirmButton.onClick.AddListener(Confirm);
-        Label("Label", confirm, font, "확인", 34, Color.white, Vector2.zero, new Vector2(320f, 80f));
+        Label("Label", confirm, font, "확인", 28, Color.white, Vector2.zero, new Vector2(320f, 76f));
+        if (framed) { JobWindowSkin.SkinButton(confirmButton, true); JobWindowSkin.FitRow(-390f, 0f, confirmButton); }
 
         selectRoot.SetActive(false);
     }
 
-    private static void MakeButton(string name, Transform parent, Font font, string label, Color color,
+    private static Button MakeButton(string name, Transform parent, Font font, string label, Color color,
         Vector2 position, Vector2 size, UnityAction onClick)
     {
         RectTransform rect = Centered(name, parent, position, size);
@@ -417,7 +471,14 @@ public class SecondJobSystem : MonoBehaviour
         button.targetGraphic = image;
         button.navigation = new Navigation { mode = Navigation.Mode.None };
         button.onClick.AddListener(onClick);
-        Label("Label", rect, font, label, 34, Color.white, Vector2.zero, size);
+        Label("Label", rect, font, label, 28, Color.white, Vector2.zero, size);
+        return button;
+    }
+
+    private static Sprite LoadArt(string path)
+    {
+        Texture2D tex = Resources.Load<Texture2D>(path);
+        return tex != null ? Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0.5f, 0.5f), 100f) : null;
     }
 
     private static RectTransform Rect(string name, Transform parent, Vector2 min, Vector2 max, Vector2 offMin, Vector2 offMax)

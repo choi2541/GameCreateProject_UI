@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 7544dd7c2ef9f1b48bc9c8f0a419b06c
+guid: 1842d3e47b2eda4438aaff711ea4f862
 TextureImporter:
   internalIDToNameTable:
   - first:
@@ -24,7 +24,7 @@ TextureImporter:
   serializedVersion: 13
   mipmaps:
     mipMapMode: 0
-    enableMipMap: 0
+    enableMipMap: 1
     sRGBTexture: 1
     linearTexture: 0
     fadeOut: 0
@@ -54,7 +54,7 @@ TextureImporter:
     serializedVersion: 2
     filterMode: 1
     aniso: 1
-    mipBias: 0
+    mipBias: -0.7
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -74,7 +74,7 @@ TextureImporter:
   spriteTessellationMethod: 0
   spriteTessellationDetail: -1
   spriteGeometrySubdivision: -1
-  textureType: 8
+  textureType: 0
   textureShape: 1
   singleChannelComponent: 0
   flipbookRows: 1
@@ -89,10 +89,10 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 4
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 2048
+    maxTextureSize: 4096
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 2
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -120,10 +120,10 @@ TextureImporter:
       name: novice_attack_down_0
       rect:
         serializedVersion: 2
-        x: 51
-        y: 5
-        width: 184
-        height: 258
+        x: 34
+        y: 0
+        width: 78
+        height: 135
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -142,10 +142,10 @@ TextureImporter:
       name: novice_attack_down_1
       rect:
         serializedVersion: 2
-        x: 409
-        y: 5
-        width: 144
-        height: 258
+        x: 179
+        y: 0
+        width: 77
+        height: 135
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -164,10 +164,10 @@ TextureImporter:
       name: novice_attack_down_2
       rect:
         serializedVersion: 2
-        x: 726
-        y: 5
-        width: 152
-        height: 244
+        x: 322
+        y: 0
+        width: 79
+        height: 129
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -186,10 +186,10 @@ TextureImporter:
       name: novice_attack_down_3
       rect:
         serializedVersion: 2
-        x: 1048
-        y: 47
-        width: 146
-        height: 247
+        x: 467
+        y: 15
+        width: 74
+        height: 131
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -208,10 +208,10 @@ TextureImporter:
       name: novice_attack_down_4
       rect:
         serializedVersion: 2
-        x: 1357
-        y: 5
-        width: 159
-        height: 207
+        x: 607
+        y: 0
+        width: 78
+        height: 116
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -230,10 +230,10 @@ TextureImporter:
       name: novice_attack_down_5
       rect:
         serializedVersion: 2
-        x: 1655
-        y: 5
-        width: 178
-        height: 258
+        x: 754
+        y: 0
+        width: 77
+        height: 134
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

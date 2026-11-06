@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 
 // [3차 그림자 C] 암흑 저격 : 1초 조준 후 화면을 가로지르는 일직선 저격. 표식 붙은 적은 피해 2배
@@ -25,6 +25,8 @@ public class DarkSnipeSkill : ThirdJobSkill
     private IEnumerator Snipe()
     {
         LineRenderer aimLine = JobTierUtil.NewLine("SnipeAim", new Color(0.85f, 0.5f, 1f, 0.3f), 0.04f);
+        EnemyHealth aimTarget = SkillUtil.Nearest(Enemies, Origin, aimRange);
+        if (aimTarget != null) SkillFx.Anim("snipe_aim", aimTarget.transform.position, 1.6f, aimTime, 0f, 64); // 조준 표시
         float t = 0f;
         Vector2 dir = AimDirection();
         while (t < aimTime)
@@ -41,8 +43,11 @@ public class DarkSnipeSkill : ThirdJobSkill
 
         Vector2 from = Origin;
         Vector2 to = from + dir * beamLength;
-        JobTierUtil.FlashLine(from, to, new Color(0.3f, 0.05f, 0.45f, 0.9f), beamWidth * 2.2f, 0.35f, false);
-        JobTierUtil.FlashLine(from, to, new Color(0.97f, 0.88f, 1f, 1f), beamWidth, 0.35f, false);
+        if (!SkillFx.Beam("snipe_beam", from, to, beamWidth * 2.4f, 0.35f, 63))
+        {
+            JobTierUtil.FlashLine(from, to, new Color(0.3f, 0.05f, 0.45f, 0.9f), beamWidth * 2.2f, 0.35f, false);
+            JobTierUtil.FlashLine(from, to, new Color(0.97f, 0.88f, 1f, 1f), beamWidth, 0.35f, false);
+        }
         SkillFx.Burst(from, 0.4f, 2.2f, JobTierUtil.ShadowColor, 0.3f, true);
 
         foreach (EnemyHealth enemy in SkillUtil.Enemies(Enemies))

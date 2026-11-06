@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -47,6 +47,7 @@ public class StormSummon : FourthJobSkill
         }
 
         // 1) 하늘로 화살
+        SkillFx.Anim("sky_shot", Origin + Vector2.up * 1.6f, 2.6f, 0.35f, 0f, 63);
         for (float t = 0f; t < 0.35f; t += Time.deltaTime)
         {
             JobTierUtil.FlashLine(Origin + Vector2.up * (t * 30f), Origin + Vector2.up * (t * 30f + 1.5f), JobTierUtil.StormColor, 0.15f, 0.15f, false);
@@ -60,6 +61,29 @@ public class StormSummon : FourthJobSkill
         tsr.color = new Color(0.15f, 0.35f, 0.32f, 0f);
         tsr.sortingOrder = 50;
         tint.transform.localScale = new Vector3(halfW * 3f, halfH * 3f, 1f);
+        // 비바람 그림을 화면에 타일처럼 깔기 (카메라를 따라감)
+        GameObject rain = null;
+        if (SkillFx.Frames("storm_rain") != null)
+        {
+            rain = new GameObject("StormRain");
+            const float tile = 4.5f, step = 3.4f; // 칸끼리 겹치게 깔아서 이음매가 안 보이게
+            int nx = Mathf.CeilToInt(halfW * 2f / step) + 2, ny = Mathf.CeilToInt(halfH * 2f / step) + 2;
+            for (int ix = 0; ix < nx; ix++)
+                for (int iy = 0; iy < ny; iy++)
+                {
+                    var cell = new GameObject("Tile");
+                    cell.transform.SetParent(rain.transform, false);
+                    cell.transform.localPosition = new Vector3(-halfW - step * 0.5f + ix * step + Random.Range(-0.4f, 0.4f),
+                                                               -halfH - step * 0.5f + iy * step + Random.Range(-0.4f, 0.4f), 0f);
+                    SpriteRenderer r = SkillFx.Loop("storm_rain", cell.transform, tile, 8f, 51);
+                    if (r != null)
+                    {
+                        r.color = new Color(1f, 1f, 1f, 0.32f);
+                        r.flipX = Random.value < 0.5f;
+                        r.GetComponent<SkillFxLoop>().Set("storm_rain", 8f, r, Random.Range(0f, 1f)); // 칸마다 다른 순간부터
+                    }
+                }
+        }
 
         List<WindVortex> vortices = new List<WindVortex>();
         for (int i = 0; i < tornadoCount; i++)
@@ -77,11 +101,14 @@ public class StormSummon : FourthJobSkill
         {
             elapsed += Time.deltaTime;
             if (cam != null) tint.transform.position = cam.transform.position;
+            if (rain != null && cam != null) rain.transform.position = (Vector2)cam.transform.position;
             tsr.color = new Color(0.15f, 0.35f, 0.32f, Mathf.Clamp01(elapsed / 0.4f) * 0.35f);
             if (Random.value < 0.5f) // 바람 줄기 (연출 풀 사용)
             {
                 Vector2 s = center + new Vector2(Random.Range(-halfW, halfW), Random.Range(-halfH, halfH));
-                JobTierUtil.FlashLine(s, s + new Vector2(-1.4f, -1f), new Color(0.85f, 1f, 0.95f, 0.6f), 0.05f, 0.25f, false);
+                // 하늘에서 바람 화살이 떨어지고 땅에서 터짐 (그림 없으면 바람 줄기)
+                if (!SkillFx.FallFrames("storm_arrow", s, 1.8f, 0.2f, 1.3f, "storm_hit", 1.4f, 0.3f))
+                    JobTierUtil.FlashLine(s, s + new Vector2(-1.4f, -1f), new Color(0.85f, 1f, 0.95f, 0.6f), 0.05f, 0.25f, false);
             }
             yield return null;
         }
@@ -89,6 +116,7 @@ public class StormSummon : FourthJobSkill
         // 3) 가운데로 모여 하나로
         if (cam != null) center = cam.transform.position;
         foreach (WindVortex v in vortices) if (v != null) v.velocity = Vector2.zero;
+        SkillFx.Anim("tornado_merge", center, 4.5f, mergeSeconds, 0f, 63); // 회오리 3개가 하나로
         WindVortex big = WindVortex.Spawn(center, 1f, Enemies);
         big.lifetime = mergeSeconds + 0.3f; big.radius = 4f; big.pullSpeed = 6f; big.tickDamage = Dmg(tickDamage);
         for (float t = 0f; t < mergeSeconds; t += Time.deltaTime)
@@ -127,5 +155,6 @@ public class StormSummon : FourthJobSkill
             yield return null;
         }
         Destroy(tint);
+        if (rain != null) Destroy(rain);
     }
 }

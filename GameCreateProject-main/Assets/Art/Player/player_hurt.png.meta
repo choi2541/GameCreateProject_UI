@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: fed5e0c6fe9259d4b96b594d20bd3113
+guid: ad23be294ba6b034681fbd9795009720
 TextureImporter:
   internalIDToNameTable:
   - first:
@@ -54,7 +54,7 @@ TextureImporter:
     serializedVersion: 2
     filterMode: 1
     aniso: 1
-    mipBias: 0
+    mipBias: -0.7
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -120,10 +120,10 @@ TextureImporter:
       name: player_hurt_0
       rect:
         serializedVersion: 2
-        x: 41
-        y: 5
-        width: 155
-        height: 258
+        x: 18
+        y: 0
+        width: 82
+        height: 134
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -142,10 +142,10 @@ TextureImporter:
       name: player_hurt_1
       rect:
         serializedVersion: 2
-        x: 283
-        y: 5
-        width: 196
-        height: 251
+        x: 140
+        y: 0
+        width: 102
+        height: 131
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -164,10 +164,10 @@ TextureImporter:
       name: player_hurt_2
       rect:
         serializedVersion: 2
-        x: 550
-        y: 5
-        width: 190
-        height: 227
+        x: 273
+        y: 0
+        width: 100
+        height: 119
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -186,10 +186,10 @@ TextureImporter:
       name: player_hurt_3
       rect:
         serializedVersion: 2
-        x: 780
-        y: 5
-        width: 192
-        height: 234
+        x: 388
+        y: 0
+        width: 101
+        height: 123
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -208,10 +208,10 @@ TextureImporter:
       name: player_hurt_4
       rect:
         serializedVersion: 2
-        x: 1049
-        y: 5
-        width: 177
-        height: 258
+        x: 522
+        y: 0
+        width: 94
+        height: 134
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -230,10 +230,10 @@ TextureImporter:
       name: player_hurt_5
       rect:
         serializedVersion: 2
-        x: 1302
-        y: 5
-        width: 154
-        height: 258
+        x: 649
+        y: 0
+        width: 82
+        height: 134
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

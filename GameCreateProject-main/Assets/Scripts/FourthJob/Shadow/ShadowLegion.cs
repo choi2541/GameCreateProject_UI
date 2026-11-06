@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -50,6 +50,8 @@ public class ShadowLegion : FourthJobSkill
     private readonly List<SpriteRenderer> clones = new List<SpriteRenderer>(48);   // 재사용
     private readonly List<LineRenderer> links = new List<LineRenderer>(48);        // 재사용
     private readonly List<int> linkA = new List<int>(64), linkB = new List<int>(64);
+    private Sprite[] linkFrames;
+    private Material linkMaterial;
     private readonly List<Vector2> ringPositions = new List<Vector2>(24);
     private Transform cloneRoot;
     private int usedClones, usedLinks;
@@ -66,7 +68,12 @@ public class ShadowLegion : FourthJobSkill
         // 1) 속박: 폭발 직전까지 움직이지 못함
         float bindSeconds = summonSeconds + arrowFlightSeconds + netSeconds + 0.4f;
         for (int i = 0; i < targets.Count; i++)
+        {
             SkillStun.Apply(targets[i], bindSeconds);
+            // 사슬 속박 그림 (발밑에서 조여듦, 폭발 직전까지)
+            SpriteRenderer chain = targets[i] != null ? SkillFx.Loop("legion_bind", targets[i].transform, 1.5f, 8f, 41) : null;
+            if (chain != null) Destroy(chain.gameObject, bindSeconds);
+        }
 
         // 2) 소환: 주위에 빙 둘러서 + 적 옆에
         usedClones = 0;
@@ -108,7 +115,8 @@ public class ShadowLegion : FourthJobSkill
             if (e == null || !e.isActiveAndEnabled) continue;
             Vector2 at = e.transform.position;
             Vector2 src = i < enemyClones ? (Vector2)clones[ringCount + i].transform.position : NearestRing(at);
-            SkillFx.Fly(arrowSprite, src, at, MarkArrowColor, arrowFlightSeconds, 1.2f);
+            if (!SkillFx.FlyFrames("legion_arrow", src, at, arrowFlightSeconds, 1.6f))
+                SkillFx.Fly(arrowSprite, src, at, MarkArrowColor, arrowFlightSeconds, 1.2f);
         }
         yield return new WaitForSeconds(arrowFlightSeconds);
         float markSeconds = netSeconds + 1f;
@@ -124,13 +132,14 @@ public class ShadowLegion : FourthJobSkill
         for (float t = 0f; t < netSeconds; t += Time.deltaTime)
         {
             float alpha = Mathf.Clamp01(t / (netSeconds * 0.5f)) * 0.9f;
+            if (linkMaterial != null) linkMaterial.mainTexture = linkFrames[Mathf.FloorToInt(t * 12f) % linkFrames.Length].texture;
             for (int i = 0; i < usedLinks; i++)
             {
                 EnemyHealth a = targets[linkA[i]], b = targets[linkB[i]];
                 LineRenderer l = links[i];
                 if (a == null || b == null) { l.positionCount = 0; continue; }
                 JobTierUtil.SetStraight(l, a.transform.position, b.transform.position);
-                Color c = LinkColor; c.a = alpha;
+                Color c = linkMaterial != null ? Color.white : LinkColor; c.a = linkMaterial != null ? Mathf.Min(1f, alpha / 0.9f) : alpha;
                 l.startColor = l.endColor = c;
             }
             for (int i = 0; i < usedClones; i++) // 분신이 기를 모으듯 살짝 커짐
@@ -150,17 +159,22 @@ public class ShadowLegion : FourthJobSkill
             int dmg = boss ? Dmg(bossBlastDamage, e) : (blastKillsMobs ? 999999 : Dmg(blastDamage, e));
             ShadowMark.Consume(e);
             JobTierUtil.Hit(e, dmg);
-            SkillFx.Burst(at, 0.4f, 2.6f, new Color(0.95f, 0.85f, 1f, 0.95f), 0.35f);
-            SkillFx.Burst(at, 0.4f, 3f, JobTierUtil.ShadowColor, 0.4f, true);
+            if (!SkillFx.Anim("legion_blast", at, 3f, 0.55f, 0f, 63))
+            {
+                SkillFx.Burst(at, 0.4f, 2.6f, new Color(0.95f, 0.85f, 1f, 0.95f), 0.35f);
+                SkillFx.Burst(at, 0.4f, 3f, JobTierUtil.ShadowColor, 0.4f, true);
+            }
         }
         SkillFx.Burst(center, 0.5f, ringRadius * 4f, new Color(0.6f, 0.3f, 0.9f, 0.7f), 0.45f, true);
 
-        // 분신 사라짐
+        // 분신 사라짐 (그림 분신은 연기로 흩어짐)
+        for (int i = 0; i < usedClones; i++) CloneLook.Dissolve(clones[i], 0.4f);
         for (float t = 0f; t < 0.4f; t += Time.deltaTime)
         {
             float k = 1f - t / 0.4f;
             for (int i = 0; i < usedClones; i++)
             {
+                if (CloneLook.IsAnimated(clones[i])) continue;
                 Color c = CloneColor; c.a *= k;
                 clones[i].color = c;
             }
@@ -190,6 +204,17 @@ public class ShadowLegion : FourthJobSkill
         }
         usedClones++;
 
+        if (CloneLook.Apply(sr, faceLeft, out Vector3 framedScale))
+        {
+            cloneScale = framedScale; // 분신 그림: 연기에서 나타나 활을 쏨
+            sr.transform.position = position;
+            sr.gameObject.SetActive(true);
+            if (!SkillFx.Anim("shadow_step", position, 1.6f, 0.3f, 0f, 61))
+                SkillFx.Burst(position, 0.3f, 1.3f, new Color(0.3f, 0.08f, 0.45f, 0.7f), 0.25f);
+            return;
+        }
+        CloneLook old = sr.GetComponent<CloneLook>();
+        if (old != null) old.enabled = false;
         if (source != null && source.sprite != null)
         {
             sr.sprite = source.sprite;
@@ -205,7 +230,8 @@ public class ShadowLegion : FourthJobSkill
         sr.transform.position = position;
         sr.transform.localScale = cloneScale;
         sr.gameObject.SetActive(true);
-        SkillFx.Burst(position, 0.3f, 1.3f, new Color(0.3f, 0.08f, 0.45f, 0.7f), 0.25f);
+        if (!SkillFx.Anim("shadow_step", position, 1.6f, 0.3f, 0f, 61))
+            SkillFx.Burst(position, 0.3f, 1.3f, new Color(0.3f, 0.08f, 0.45f, 0.7f), 0.25f);
     }
 
     private Vector2 NearestRing(Vector2 at)
@@ -273,10 +299,23 @@ public class ShadowLegion : FourthJobSkill
             l.transform.SetParent(cloneRoot, false);
             links.Add(l);
         }
+        // 그물선 그림이 있으면 선에 입힘 (선 길이에 맞게 늘어남)
+        linkFrames = SkillFx.Frames("legion_link");
+        if (linkFrames != null && linkMaterial == null)
+        {
+            Shader sh = Shader.Find("Sprites/Default");
+            if (sh != null) { linkMaterial = new Material(sh); linkMaterial.mainTexture = linkFrames[0].texture; }
+        }
         for (int i = 0; i < links.Count; i++)
         {
             links[i].gameObject.SetActive(i < usedLinks);
             links[i].positionCount = 0;
+            if (linkMaterial != null)
+            {
+                links[i].sharedMaterial = linkMaterial;
+                links[i].textureMode = LineTextureMode.Stretch;
+                links[i].startWidth = links[i].endWidth = 0.4f;
+            }
         }
     }
 

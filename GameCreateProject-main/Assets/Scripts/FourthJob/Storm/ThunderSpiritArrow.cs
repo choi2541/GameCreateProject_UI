@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -65,7 +65,7 @@ public class ThunderSpiritArrow : FourthJobSkill
         arrowRenderer.sprite = arrowFrames ? SkillFx.LoopFrame(ArrowFx, 0f, 14f)
             : arrowSprite != null ? arrowSprite : SkillUtil.ArrowSprite();
         arrowRenderer.color = arrowFrames ? Color.white : JobTierUtil.BoltColor;
-        arrow.transform.localScale = Vector3.one * (arrowFrames ? arrowLength / arrowRenderer.sprite.bounds.size.x : 1.8f);
+        arrow.transform.localScale = Vector3.one * (arrowFrames ? arrowLength / arrowRenderer.sprite.bounds.size.x : SkillUtil.ArrowScale(arrowRenderer.sprite, 1.8f));
         arrow.SetActive(true);
 
         Vector2 pos = Origin;

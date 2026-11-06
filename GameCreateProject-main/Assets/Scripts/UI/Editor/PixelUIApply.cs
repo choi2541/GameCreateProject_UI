@@ -1,4 +1,4 @@
-#if UNITY_EDITOR
+﻿#if UNITY_EDITOR
 using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
@@ -50,7 +50,7 @@ public static class PixelUIApply
     private static readonly Vector2 HpPos = new Vector2(128f, -38f), HpSize = new Vector2(420f, 46f);
     private static readonly Vector2 StatPos = new Vector2(132f, -92f), StatSize = new Vector2(236f, 44f);
     private static readonly Vector2 JobPos = new Vector2(378f, -90f), JobSize = new Vector2(236f, 48f);
-    private static readonly Vector2 TimerPos = new Vector2(0f, -30f), TimerSize = new Vector2(320f, 68f); // 시간판: 크게 (C안)
+    private static readonly Vector2 TimerPos = new Vector2(0f, -30f), TimerSize = new Vector2(270f, 68f); // 시간판: 높이 그대로, 양옆만 줄임
     private static readonly Vector2 KillPos = new Vector2(-110f, -36f), KillSize = new Vector2(220f, 52f);
     private static readonly Vector2 KeyTagPos = new Vector2(0f, -4f);
     private static readonly Vector2 KeyTagSize = new Vector2(100f, 28f); // 칸(104)보다 좁게 → 옆 칸 이름표와 안 붙음
@@ -66,6 +66,66 @@ public static class PixelUIApply
     private const float RingOuterRatio = 552f / 598f, RingHoleRatio = 431f / 598f;
 
     // 9칸 나누기 테두리 (그림 픽셀: 왼, 아래, 오른, 위) — 그림 가져오기 설정에 직접 넣음
+    // 그림 원래 가로 크기. 그림을 줄여도(가벼워지게) 아래 숫자들(테두리, 칸 위치)은 원래 크기 기준이라
+    // "지금 크기 ÷ 원래 크기" 비율(K)을 곱해서 맞춤. 그림을 새로 바꾸면 여기 숫자도 새 그림 크기로.
+    private static readonly Dictionary<string, float> OriginalWidth = new Dictionary<string, float>
+    {
+        { "HUD/ui_button_job", 1004f },
+        { "HUD/ui_button_job_glow", 1004f },
+        { "HUD/ui_exp_fill", 1552f },
+        { "HUD/ui_exp_frame", 1684f },
+        { "HUD/ui_hp_fill", 1448f },
+        { "HUD/ui_hp_frame", 1652f },
+        { "HUD/ui_hp_lag", 1448f },
+        { "HUD/ui_key_tag", 2036f },
+        { "HUD/ui_kill_plate", 912f },
+        { "HUD/ui_level_badge", 216f },
+        { "HUD/ui_rune_cdr", 440f },
+        { "HUD/ui_rune_exp", 440f },
+        { "HUD/ui_rune_skl", 440f },
+        { "HUD/ui_rune_spd", 440f },
+        { "HUD/ui_rune_str", 440f },
+        { "HUD/ui_rune_vit", 440f },
+        { "HUD/ui_skill_slot_locked", 600f },
+        { "HUD/ui_skill_slot_normal", 600f },
+        { "HUD/ui_skill_slot_ready", 600f },
+        { "HUD/ui_stat_tag", 992f },
+        { "HUD/ui_timer_plate", 916f },
+        { "Stone/ui_button_disabled", 1288f },
+        { "Stone/ui_button_green", 1312f },
+        { "Stone/ui_button_normal", 1296f },
+        { "Stone/ui_button_red", 1288f },
+        { "Stone/ui_inner_frame", 788f },
+        { "Stone/ui_inner_frame_highlight", 788f },
+        { "Stone/ui_panel", 1140f },
+        { "Stone/ui_pause_hover", 696f },
+        { "Stone/ui_pause_normal", 696f },
+        { "Stone/ui_pause_pressed", 696f },
+        { "Stone/ui_title_board", 2100f },
+        { "Wood/ui_button_disabled", 1320f },
+        { "Wood/ui_button_green", 1376f },
+        { "Wood/ui_button_normal", 1320f },
+        { "Wood/ui_button_red", 1376f },
+        { "Wood/ui_inner_frame", 768f },
+        { "Wood/ui_inner_frame_highlight", 768f },
+        { "Wood/ui_panel", 1196f },
+        { "Wood/ui_pause_hover", 672f },
+        { "Wood/ui_pause_normal", 672f },
+        { "Wood/ui_pause_pressed", 672f },
+        { "Wood/ui_title_board", 2084f }
+    };
+
+    private static float KOf(string key, float currentWidth) =>
+        OriginalWidth.TryGetValue(key, out float w) && w > 0f ? currentWidth / w : 1f;
+
+    private static float K(Sprite s)
+    {
+        if (s == null) return 1f;
+        string p = AssetDatabase.GetAssetPath(s).Replace('\\', '/');
+        string key = Path.GetFileName(Path.GetDirectoryName(p)) + "/" + Path.GetFileNameWithoutExtension(p);
+        return KOf(key, s.rect.width);
+    }
+
     private static readonly Dictionary<string, Vector4> HudBorders = new Dictionary<string, Vector4>
     {
         { "ui_hp_frame", new Vector4(260f, 0f, 60f, 0f) },
@@ -164,7 +224,7 @@ public static class PixelUIApply
             TextureImporter imp = AssetImporter.GetAtPath(kv.Value) as TextureImporter;
             if (imp == null) continue;
             imp.GetSourceTextureWidthAndHeight(out int w, out int h);
-            Vector4 border = BorderFor(kv.Key, w, h);
+            Vector4 border = BorderFor(kv.Key, w, h) * KOf(kv.Key, w);
             bool dirty = imp.textureType != TextureImporterType.Sprite || imp.spriteImportMode != SpriteImportMode.Single
                 || imp.filterMode != FilterMode.Point || imp.textureCompression != TextureImporterCompression.CompressedHQ || imp.isReadable
                 || imp.mipmapEnabled || imp.spriteBorder != border || imp.maxTextureSize < 4096 || imp.spritePixelsPerUnit != 100f;
@@ -199,7 +259,7 @@ public static class PixelUIApply
         }
         float all = name == "ui_panel" ? theme.PanelBorderPx
                   : name.StartsWith("ui_inner_frame") ? theme.FrameBorderPx : 0f;
-        all = Mathf.Min(all, Mathf.Floor(Mathf.Min(w, h) * 0.5f) - 1f);
+        all = Mathf.Min(all, Mathf.Floor(Mathf.Min(w, h) / Mathf.Max(0.01f, KOf(key, w)) * 0.5f) - 1f);
         return all > 0f ? new Vector4(all, all, all, all) : Vector4.zero;
     }
 
@@ -294,6 +354,7 @@ public static class PixelUIApply
             {
                 count += SkinHud(hud);
                 count += SetupJobWindow(hud, panel, frame, title, green, red, disabled);
+                count += SetupJobFrames(hud, normal, green, disabled);
             }
 
         return count;
@@ -421,7 +482,7 @@ public static class PixelUIApply
         img.type = theme.PanelTiled ? Image.Type.Tiled : Image.Type.Sliced;
         img.fillCenter = true;
         img.color = Color.white;
-        img.pixelsPerUnitMultiplier = theme.PanelBorderPx / Mathf.Max(1f, theme.PanelBorderOnScreen);
+        img.pixelsPerUnitMultiplier = theme.PanelBorderPx * K(panel) / Mathf.Max(1f, theme.PanelBorderOnScreen);
 
         Transform title = img.transform.Find("Title");
         Text t = title != null ? title.GetComponent<Text>() : null;
@@ -440,7 +501,7 @@ public static class PixelUIApply
         img.type = Image.Type.Sliced;
         img.fillCenter = true;
         img.color = Color.white;
-        img.pixelsPerUnitMultiplier = theme.FrameBorderPx / Mathf.Max(1f, theme.FrameBorderOnScreen);
+        img.pixelsPerUnitMultiplier = theme.FrameBorderPx * K(frame) / Mathf.Max(1f, theme.FrameBorderOnScreen);
     }
 
     // ───────── 1차 전직 선택 창 (반반 그림) ─────────
@@ -483,10 +544,68 @@ public static class PixelUIApply
         SetRef(so, "buttonGreen", green);
         SetRef(so, "buttonRed", red);
         SetRef(so, "buttonDisabled", disabled);
-        so.FindProperty("panelPixelsPerUnit").floatValue = theme.PanelBorderPx / Mathf.Max(1f, theme.PanelBorderOnScreen);
-        so.FindProperty("framePixelsPerUnit").floatValue = theme.FrameBorderPx / Mathf.Max(1f, theme.FrameBorderOnScreen);
+        so.FindProperty("panelPixelsPerUnit").floatValue = theme.PanelBorderPx * K(panel) / Mathf.Max(1f, theme.PanelBorderOnScreen);
+        so.FindProperty("framePixelsPerUnit").floatValue = theme.FrameBorderPx * K(frame) / Mathf.Max(1f, theme.FrameBorderOnScreen);
         so.ApplyModifiedPropertiesWithoutUndo();
         return 1;
+    }
+
+    // ───────── 2·3·4차 전직 창 테두리 (frame_<종류>_<wood|stone>.png) ─────────
+    private static readonly string[] JobFrameKinds = { "2nd", "shadow", "storm", "4th" };
+    private const float JobFrameBorderAt800 = 185f; // 가로 800픽셀 그림에서 모서리 장식 크기
+
+    private static int SetupJobFrames(RectTransform hud, Sprite normal, Sprite green, Sprite disabled)
+    {
+        PixelUISprites holder = GetOrAdd<PixelUISprites>(hud.gameObject);
+        string suffix = "_" + theme.Name.ToLowerInvariant();
+        var frames = new Sprite[JobFrameKinds.Length];
+        int found = 0;
+        for (int i = 0; i < JobFrameKinds.Length; i++)
+        {
+            string want = "frame_" + JobFrameKinds[i] + suffix;
+            foreach (string guid in AssetDatabase.FindAssets(want + " t:Texture2D"))
+            {
+                string p = AssetDatabase.GUIDToAssetPath(guid);
+                if (Path.GetFileNameWithoutExtension(p) != want) continue;
+                TextureImporter imp = AssetImporter.GetAtPath(p) as TextureImporter;
+                if (imp == null) continue;
+                imp.GetSourceTextureWidthAndHeight(out int w, out int h);
+                float b = Mathf.Round(JobFrameBorderAt800 * w / 800f);
+                var border = new Vector4(b, b, b, b);
+                if (imp.textureType != TextureImporterType.Sprite || imp.spriteBorder != border || !imp.mipmapEnabled
+                    || imp.filterMode != FilterMode.Bilinear || imp.isReadable || imp.textureCompression != TextureImporterCompression.CompressedHQ)
+                {
+                    imp.textureType = TextureImporterType.Sprite;
+                    imp.spriteImportMode = SpriteImportMode.Single;
+                    imp.filterMode = FilterMode.Bilinear;   // 작게 줄여 보여서 부드럽게
+                    imp.mipmapEnabled = true;               // 줄여도 자글거림 없이
+                    imp.textureCompression = TextureImporterCompression.CompressedHQ;
+                    imp.isReadable = false;
+                    imp.alphaIsTransparency = true;
+                    imp.wrapMode = TextureWrapMode.Clamp;
+                    imp.maxTextureSize = 2048;
+                    imp.spritePixelsPerUnit = 100f;
+                    imp.spriteBorder = border;
+                    var settings = new TextureImporterSettings();
+                    imp.ReadTextureSettings(settings);
+                    settings.spriteMeshType = SpriteMeshType.FullRect;
+                    imp.SetTextureSettings(settings);
+                    imp.SaveAndReimport();
+                }
+                frames[i] = AssetDatabase.LoadAssetAtPath<Sprite>(p);
+                if (frames[i] != null) found++;
+                break;
+            }
+        }
+        if (found < JobFrameKinds.Length)
+            Debug.LogWarning($"[Pixel UI] 전직 창 테두리 {found}/{JobFrameKinds.Length}장만 찾았어요 (frame_*{suffix}.png). 없는 창은 색 상자로 나와요.");
+
+        holder.jobFrames = found == JobFrameKinds.Length ? frames : new Sprite[JobFrameKinds.Length];
+        holder.buttonNormal = normal; holder.buttonNormalInset = BodyOf(normal);
+        holder.buttonGreen = green; holder.buttonGreenInset = BodyOf(green);
+        holder.buttonDisabled = disabled; holder.buttonDisabledInset = BodyOf(disabled);
+        EditorUtility.SetDirty(holder);
+        return found > 0 ? 1 : 0;
     }
 
     // ───────── 게임 화면 HUD ─────────
@@ -607,7 +726,8 @@ public static class PixelUIApply
             float m = SetSliced(plate, timer, TimerSize.y);
             PutBehind(plate.transform, time.transform);
             float left = (PlateIconRight + 14f) / m, right = 24f;
-            PlaceInPlate(time, TC, TimerPos + new Vector2((left - right) * 0.5f, 0f), TimerSize.x - left - right, TimerSize.y, 40);
+            // 글자: 모래시계 옆 빈칸 가운데(0.5)보다 판 가운데 쪽으로 (0.25) → 오른쪽으로 치우쳐 보이지 않게
+            PlaceInPlate(time, TC, TimerPos + new Vector2((left - right) * 0.25f, 0f), TimerSize.x - left - right, TimerSize.y, 40);
             AddOutline(time, 2f);
             count++;
         }
@@ -640,14 +760,14 @@ public static class PixelUIApply
         Place((RectTransform)b.transform, TL, JobPos, JobSize);
         Image hit = b.GetComponent<Image>();
         if (hit != null) { hit.color = new Color(1f, 1f, 1f, 0f); hit.raycastTarget = true; }
-        float m = (job.rect.height - JobPad.y - JobPad.w) / JobSize.y;
+        float m = (job.rect.height / K(job) - JobPad.y - JobPad.w) / JobSize.y; // 원래 크기 기준
         Image art = Child(b.transform, "Art", job);
         Image glow = glowSprite != null ? Child(b.transform, "Glow", glowSprite) : null;
         foreach (Image img in new[] { art, glow })
         {
             if (img == null) continue;
             img.type = Image.Type.Sliced;
-            img.pixelsPerUnitMultiplier = m;
+            img.pixelsPerUnitMultiplier = m * K(job); // 실제 그림 크기 기준
             RectTransform r = img.rectTransform;
             Stretch(r);
             r.offsetMin = new Vector2(-JobPad.x / m, -JobPad.y / m);
@@ -756,11 +876,13 @@ public static class PixelUIApply
             plate.type = Image.Type.Sliced;
             plate.pixelsPerUnitMultiplier = keyTag.rect.height / KeyTagSize.y;
             PutBehind(plate.transform, keyText.transform);
-            kr.sizeDelta = KeyTagSize - new Vector2(16f, 4f);
+            kr.sizeDelta = KeyTagSize - new Vector2(30f, 6f); // 이름표 양쪽 장식 안쪽에만 글자 (SHIFT 3/3처럼 길어도 안 삐져나오게)
             kr.anchoredPosition = pr.anchoredPosition + new Vector2(0f, -2f);
             keyText.alignment = TextAnchor.MiddleCenter;
             keyText.color = new Color(0.93f, 0.88f, 0.76f);
-            BestFit(keyText, 16);
+            BestFit(keyText, 15);
+            keyText.resizeTextMinSize = 8;
+            keyText.alignByGeometry = true;
             AddOutline(keyText, 1.5f);
         }
     }
@@ -796,12 +918,13 @@ public static class PixelUIApply
     private static float SetSliced(Image img, Sprite sprite, float height)
     {
         float m = sprite.rect.height / Mathf.Max(1f, height);
-        if (img == null) return m;
+        float k = K(sprite);
+        if (img == null) return m / k;
         img.sprite = sprite;
         img.type = Image.Type.Sliced;
         img.color = Color.white;
         img.pixelsPerUnitMultiplier = m;
-        return m;
+        return m / k; // 돌려주는 값은 원래 그림 크기 기준 (칸 위치 숫자들이 원래 크기 기준이라)
     }
 
     private static void FitInside(RectTransform r, Vector4 slot, float m)

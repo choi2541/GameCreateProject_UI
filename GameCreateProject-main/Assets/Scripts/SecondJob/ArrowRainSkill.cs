@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 
 // [2차 X] 화살비 (임시, 미스포츈 E 느낌)
@@ -52,7 +52,9 @@ public class ArrowRainSkill : ArcherSkillBase, ISecondJobSkill
             for (int i = 0; i < arrowsPerTick; i++)
             {
                 Vector2 spot = center + Random.insideUnitCircle * radius;
-                SkillFx.Fall(arrowSprite, spot, 1.6f, arrowColor, 0.14f, Mathf.Max(0.01f, arrowScale));
+                // 그림이 있으면: 떨어지는 화살(3칸) → 땅에 닿으면 흙·초록 불꽃 (크기는 Arrow Scale로 조절)
+                if (!SkillFx.FallFrames("rain_arrow", spot, 1.6f, 0.14f, 1.4f * arrowScale / 0.7f, "rain_hit", 0.9f, 0.3f))
+                    SkillFx.Fall(arrowSprite, spot, 1.6f, arrowColor, 0.14f, Mathf.Max(0.01f, arrowScale));
             }
             SkillUtil.DamageInRadius(Enemies, center, radius, SkillModifiers.Damage(damagePerTick));
 
@@ -69,6 +71,9 @@ public class ArrowRainSkill : ArcherSkillBase, ISecondJobSkill
         GameObject obj = new GameObject("ArrowRainZone");
         obj.transform.position = center;
         obj.transform.localScale = Vector3.one * radius * 2f;
+
+        // 그림이 있으면: 초록 원형 표시가 은은하게 깜빡임 (장판 크기 그대로)
+        if (SkillFx.Loop("rain_mark", obj.transform, radius * 2f, 6f, 6) != null) return obj;
 
         SpriteRenderer fill = obj.AddComponent<SpriteRenderer>();
         fill.sprite = SkillUtil.CircleSprite();

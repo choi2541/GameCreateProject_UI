@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 3297516299f596d48aab50ce320fe261
+guid: d39c4c77d4082bf4b9f6ad3c9ad1e6a2
 TextureImporter:
   internalIDToNameTable:
   - first:
@@ -105,10 +105,10 @@ TextureImporter:
       name: ui_pause_hover_0
       rect:
         serializedVersion: 2
-        x: 10
+        x: 0
         y: 0
-        width: 673
-        height: 694
+        width: 176
+        height: 176
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 // 스킬들이 같이 쓰는 도구: 적 찾기, 범위 피해, 장애물 검사, 임시 이미지 생성
@@ -152,6 +152,19 @@ public static class SkillUtil
     // ───────── 임시 이미지 (화살 이미지를 지정하지 않았을 때 사용) ─────────
 
     // 오른쪽을 향한 흰색 화살 (가로 1칸)
+    // 스킬 화살 기본 길이 (월드 단위). 화살 그림이 몇 픽셀이든 이 길이 × 스킬의 크기 배율로 맞춤.
+    // (팀 기본 공격 화살 = 그림 10.24 × 0.15 ≈ 1.5 → 스킬 배율 1.5일 때 기본 공격과 비슷)
+    // 조절: Player의 Skill Settings → Arrow Length (없으면 1.5)
+    public static float BaseArrowLength => SkillSettings.Instance != null ? SkillSettings.Instance.arrowLength : 1.5f;
+
+    // 화살 그림 크기와 상관없이 "기본 길이 × scale"이 되도록 transform 배율 계산
+    public static float ArrowScale(Sprite sprite, float scale)
+    {
+        if (sprite == null) return scale;
+        float w = Mathf.Max(sprite.bounds.size.x, sprite.bounds.size.y);
+        return w > 0.0001f ? scale * BaseArrowLength / w : scale;
+    }
+
     public static Sprite ArrowSprite()
     {
         if (arrowSprite != null)

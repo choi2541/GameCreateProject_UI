@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 // 캐릭터 창 왼쪽: 캐릭터 모습, 직업, 레벨, 체력, 경험치, 생존 시간, 처치 수
@@ -40,6 +40,7 @@ public class CharacterWindowUI : MonoBehaviour
 
     private void Update()
     {
+        UpdatePortrait(); // 고정 그림이라 움직이지 않음 (전직하면 바뀐 모습으로만 바뀜)
         Refresh();
     }
 
@@ -53,7 +54,9 @@ public class CharacterWindowUI : MonoBehaviour
         {
             GameSession session = GameSession.Instance;
             PlayerHealth player = session != null ? session.Player : null;
-            if (player != null)
+            PlayerSpriteAnimator anim = player != null ? player.GetComponent<PlayerSpriteAnimator>() : null;
+            if (anim != null) sprite = anim.PortraitSprite; // 서 있는 모습 고정
+            if (sprite == null && player != null)
             {
                 foreach (SpriteRenderer sr in player.GetComponentsInChildren<SpriteRenderer>())
                 {
@@ -66,6 +69,7 @@ public class CharacterWindowUI : MonoBehaviour
             }
         }
 
+        if (portrait.sprite == sprite && portrait.enabled == (sprite != null)) return;
         portrait.sprite = sprite;
         portrait.enabled = sprite != null;
         portrait.preserveAspect = true;

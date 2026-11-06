@@ -73,10 +73,16 @@ public class GameSession : MonoBehaviour
     }
 
     // 적이 죽을 때 호출합니다.
+    // 적을 잡을 때마다 (적 레벨 시스템 등이 씀)
+    public event Action KillRegistered;
+
     public void RegisterKill()
     {
         if (!IsGameOver)
+        {
             Kills++;
+            KillRegistered?.Invoke();
+        }
     }
 
     public bool Pause()

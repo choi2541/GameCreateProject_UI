@@ -1,4 +1,4 @@
-#if UNITY_EDITOR
+﻿#if UNITY_EDITOR
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
@@ -68,7 +68,7 @@ public static class SecondJobSetup
             jobs.arraySize = 1;
         SerializedProperty first = jobs.GetArrayElementAtIndex(0);
         first.FindPropertyRelative("displayName").stringValue = "2차 궁수";
-        first.FindPropertyRelative("description").stringValue = "부채꼴 연사 · 화살비\n크리스탈 애로우 · 회피 사격";
+        first.FindPropertyRelative("description").stringValue = "부채꼴 연사 · 화살비\n가시 덩굴 화살 · 회피 사격";
         SerializedProperty enable = first.FindPropertyRelative("enableSkills");
         MonoBehaviour[] skills =
         {

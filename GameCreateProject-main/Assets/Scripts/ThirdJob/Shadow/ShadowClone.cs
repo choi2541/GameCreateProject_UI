@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 
 // 그림자 분신 연출: 플레이어 그림을 복사해서 검보라색으로 칠함 (그림이 없으면 둥근 그림자)
@@ -6,6 +6,7 @@ public class ShadowClone : MonoBehaviour
 {
     private SpriteRenderer sr;
     private float fade = -1f, fadeTime;
+    private bool framed;
 
     public static GameObject Create(GameObject player, Vector2 position, float alpha = 0.85f)
     {
@@ -14,6 +15,15 @@ public class ShadowClone : MonoBehaviour
         ShadowClone clone = obj.AddComponent<ShadowClone>();
         clone.sr = obj.AddComponent<SpriteRenderer>();
         SpriteRenderer source = player != null ? player.GetComponentInChildren<SpriteRenderer>() : null;
+        clone.sr.sortingOrder = 40;
+        // 분신 그림이 있으면: 연기에서 나타나 활을 쏘는 보라 분신
+        if (CloneLook.Apply(clone.sr, source != null && source.flipX, out _))
+        {
+            clone.framed = true;
+            if (!SkillFx.Anim("shadow_step", position, 1.8f, 0.35f, 0f, 61))
+                SkillFx.Burst(position, 0.4f, 1.4f, new Color(0.3f, 0.08f, 0.45f, 0.7f), 0.3f);
+            return obj;
+        }
         if (source != null && source.sprite != null)
         {
             clone.sr.sprite = source.sprite;
@@ -27,7 +37,8 @@ public class ShadowClone : MonoBehaviour
         }
         clone.sr.color = new Color(0.25f, 0.05f, 0.4f, alpha);
         clone.sr.sortingOrder = 40;
-        SkillFx.Burst(position, 0.4f, 1.4f, new Color(0.3f, 0.08f, 0.45f, 0.7f), 0.3f);
+        if (!SkillFx.Anim("shadow_step", position, 1.8f, 0.35f, 0f, 61))
+            SkillFx.Burst(position, 0.4f, 1.4f, new Color(0.3f, 0.08f, 0.45f, 0.7f), 0.3f);
         return obj;
     }
 
@@ -36,13 +47,14 @@ public class ShadowClone : MonoBehaviour
         ShadowClone clone = obj != null ? obj.GetComponent<ShadowClone>() : null;
         if (clone == null) { if (obj != null) Destroy(obj); return; }
         clone.fade = 0f; clone.fadeTime = Mathf.Max(0.01f, seconds);
+        if (clone.framed) CloneLook.Dissolve(clone.sr, clone.fadeTime);
     }
 
     private void Update()
     {
         if (fade < 0f) return;
         fade += Time.deltaTime;
-        Color c = sr.color; c.a = Mathf.Lerp(0.85f, 0f, fade / fadeTime); sr.color = c;
+        if (!framed) { Color c = sr.color; c.a = Mathf.Lerp(0.85f, 0f, fade / fadeTime); sr.color = c; }
         if (fade >= fadeTime) Destroy(gameObject);
     }
 }
